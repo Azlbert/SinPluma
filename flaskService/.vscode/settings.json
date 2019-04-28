@@ -1,0 +1,12 @@
+{
+    "python.linting.enabled": true,
+    "python.pythonPath": "env\\Scripts\\python.exe",
+    "files.exclude": {
+        "**/__pycache__": true,
+        ".dockerignore": true,
+        "env": true,
+        "__init__.py": true,
+    },
+    //"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    //"terminal.integrated.shellArgs.windows": ["/k","env\\Scripts\\activate"]
+}

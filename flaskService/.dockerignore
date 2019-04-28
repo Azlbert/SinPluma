@@ -1,0 +1,6 @@
+venv
+.vscode
+Dockerfile
+docker-compose.yml
+__pycache__
+testing.py

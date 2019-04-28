@@ -1,0 +1,11 @@
+{
+    "python.linting.enabled": false,
+    "files.exclude": {
+        ".dockerignore": true,
+        "env": true,
+        //".gitignore": true,
+        "README.md": true,
+        "yarn.lock": true,
+        "package.json": true,
+    }
+}

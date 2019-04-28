@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"name": "sinPluma",
+			"path": "sinPluma"
+		},
+		{
+			"name": "flask",
+			"path": "flaskService"
+		},
+		{
+			"name": "react",
+			"path": "reacts"
+		},
+		{
+			"name": "mysql",
+			"path": "mysql"
+		}
+	],
+	"settings": {
+		"editor.cursorBlinking": "expand",
+		"terminal.integrated.cursorBlinking": true,
+		"terminal.integrated.cursorStyle": "line"
+	}
+}
