@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   nginx: 
-    build: .
+    build: ./nginx
     working_dir: /etc/nginx
     volumes:
       - ./nginx/nginx.conf:/nginx.conf
