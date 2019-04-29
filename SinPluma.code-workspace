@@ -1,8 +1,12 @@
 {
 	"folders": [
 		{
-			"name": "sinPluma",
-			"path": "sinPluma"
+			"name": "root",
+			"path": "."
+		},
+		{
+			"name": "nginx",
+			"path": "nginx"
 		},
 		{
 			"name": "flask",

@@ -1,0 +1,9 @@
+{
+    "python.linting.enabled": false,
+    "files.exclude": {
+        "flaskService": true,
+        "mysql": true,
+        "reacts": true,
+        "nginx": true,
+    },
+}

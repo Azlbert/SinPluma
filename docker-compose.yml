@@ -5,30 +5,30 @@ services:
     build: .
     working_dir: /etc/nginx
     volumes:
-      - ./nginx.conf:/nginx.conf
+      - ./nginx/nginx.conf:/nginx.conf
     ports:
       - 80:80
       - 443:443
 
   react:
-    build: ../reacts
+    build: ./reacts
     working_dir: /usr/src/app
     volumes:
-      - ../reacts/public:/public
-      - ../reacts/src:/src
+      - ./reacts/public:/public
+      - ./reacts/src:/src
     command: yarn start
   
   flask:
-    build: ../flaskService
+    build: ./flaskService
     command: >
       gunicorn -b 0.0.0.0:80 wsgi:app
     environment:
       PYTHONUNBUFFERED: 'true'
     volumes: 
-      - ../flaskService:/flask
+      - ./flaskService:/flask
   
   dbmysql:
-    build: ../mysql
+    build: ./mysql
     volumes:
-      - ../mysql/data_volume:/var/lib/mysql
+      - ./mysql/data_volume:/var/lib/mysql
 
