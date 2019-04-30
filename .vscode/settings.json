@@ -1,9 +1,10 @@
 {
     "python.linting.enabled": false,
     "files.exclude": {
+        "**/.git": false,
         "flaskService": true,
         "mysql": true,
         "reacts": true,
         "nginx": true,
-    },
+    }
 }
