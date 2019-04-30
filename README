@@ -1,2 +1,6 @@
-#What are you doing here?
-Go away.
+# What are you doing here?
+```python
+print('Go away.')
+```
+
+Have a nice day :)
