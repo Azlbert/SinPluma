@@ -5,5 +5,7 @@ ENV MYSQL_DATABASE      sinpluma
 ENV MYSQL_USER          dbuser
 ENV MYSQL_PASSWORD      dbpassword
 
-#mysql -u root -p
+COPY ./test_db /docker-entrypoint-initdb.d
+
+#mysql -u root -p (MYSQL_ROOT_PASSWORD)
 EXPOSE 3306

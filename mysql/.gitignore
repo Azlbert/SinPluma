@@ -1,5 +1,6 @@
+test_db
+
 # exclude everything
 data_volume/*
-
 # exception to the rule
 !data_volume/.gitkeep
