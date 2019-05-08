@@ -1,6 +1,6 @@
-test_db
+sql_builder/*
+!sql_builder/.gitkeep
 
-# exclude everything
+# exclude everything - exception to the rule
 data_volume/*
-# exception to the rule
 !data_volume/.gitkeep

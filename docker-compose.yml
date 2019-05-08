@@ -12,23 +12,28 @@ services:
 
   react:
     build: ./reacts
+    container_name: react
     working_dir: /usr/src/app
     volumes:
       - ./reacts/public:/public
       - ./reacts/src:/src
-    command: yarn start
-  
+
   flask:
     build: ./flaskService
-    command: >
-      gunicorn -b 0.0.0.0:80 wsgi:app
+    container_name: flask
+    working_dir: /flask
     environment:
       PYTHONUNBUFFERED: 'true'
     volumes: 
-      - ./flaskService:/flask
+      - ./flaskService
+    command: >
+      gunicorn -b 0.0.0.0:80 wsgi:app
   
   dbmysql:
     build: ./mysql
+    container_name: dbflask
+    working_dir: /var/lib/mysql
     volumes:
-      - ./mysql/data_volume:/var/lib/mysql
+      - ./mysql/data_volume
+
 
