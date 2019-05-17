@@ -4,7 +4,7 @@ page = Blueprint('page', __name__)
 
 @page.route('/')
 def home():
-    return 'Homx'
+    return 'Home'
 
 @page.route('/about/')
 def about():
