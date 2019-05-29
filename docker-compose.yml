@@ -1,38 +1,31 @@
-version: '3.3'
+version: '3.7'
 
 services:
   nginx: 
     build: ./nginx
-    working_dir: /etc/nginx
     volumes:
-      - ./nginx/nginx.conf:/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
       - 443:443
 
   react:
     build: ./reacts
-    container_name: react
-    working_dir: /usr/src/app
     volumes:
-      - ./reacts/public:/public
-      - ./reacts/src:/src
+      - ./reacts/public:/usr/src/app/public
+      - ./reacts/src:/usr/src/app/src
 
   flask:
     build: ./flaskService
-    container_name: flask
-    environment:
-      PYTHONUNBUFFERED: 'true'
-    volumes: 
+    working_dir: /flask
+    environment: 
+      - PYTHONUNBUFFERED=TRUE
+      - FLASK_ENV=DEVELOPMENT
+    volumes:
       - ./flaskService:/flask
-    command: >
-      gunicorn -b 0.0.0.0:80 wsgi:app
+    command: gunicorn -b 0.0.0.0:80 --reload wsgi:app    
   
   #dbmysql:
   #  build: ./mysql
-  #  container_name: dbflask
-  #  working_dir: /var/lib/mysql
   #  volumes:
-  #    - ./mysql/data_volume
-
-
+  #    - ./mysql/data_volume:/var/lib/mysql
