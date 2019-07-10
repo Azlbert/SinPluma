@@ -3,7 +3,8 @@
     "files.exclude": {
         ".dockerignore": true,
         "env": true,
-        //".gitignore": true,
+        ".gitignore": true,
+        "node_modules": true,
         "yarn.lock": true,
         "package.json": true,
     }
