@@ -13,7 +13,7 @@ userid_mapping = {
     u.id : u for u in users
 }
 
-security_key = 'albert'
+security_key = 'x¿Jlm0_'
 
 def authenticate(username,password):
     user = username_mapping.get(username, None)

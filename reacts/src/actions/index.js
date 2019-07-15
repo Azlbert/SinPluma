@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import jsonBooks from "../apis/jsonBooks";
+import sinPluma from "../apis/jsonSinPluma";
 
 export const fetchWorksAndUsers = () => async (dispatch, getState) => {
     await dispatch(fetchWorks());
@@ -13,20 +13,21 @@ export const fetchWorksAndUsers = () => async (dispatch, getState) => {
 
 export const fetchWorks = () => {
     return async dispatch => {
-        const response = await jsonBooks.get('/posts');
+        const response = await sinPluma.get('/works/');
         dispatch({
             type: 'FETCH_WORKS',
-            payload: response.data
+            payload: response.data.books
         });
     }
 };
 
 export const fetchUser = id => {
     return async dispatch => {
-        const response = await jsonBooks.get('/users/' + id);
+        const response = await sinPluma.get('/user/' + id);
+        console.log(response.data.item);
         dispatch({
             type: 'FETCH_USER',
-            payload: response.data
+            payload: response.data.item
         });
     }
 };

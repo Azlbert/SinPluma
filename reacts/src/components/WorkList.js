@@ -14,7 +14,7 @@ class WorkList extends React.Component {
             return (
                 <div key={work.id}>
                     {work.title + " "}
-                    <UserHeader userId ={work.userId}/>
+                    <UserHeader userId={work.userId}/>
                 </div>
             );
         });

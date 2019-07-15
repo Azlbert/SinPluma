@@ -5,7 +5,7 @@ class UserHeader extends React.PureComponent {
     render() {
         const { user } = this.props;
         if(!user) {
-            return null
+            return null;
         }
 
         return <b>{user.name}</b>;

@@ -1,1 +1,0 @@
-from app.blueprints.api.resource import books
