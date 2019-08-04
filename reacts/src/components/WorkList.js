@@ -1,8 +1,9 @@
 import React from "react";
+import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 import { fetchWorksAndUsers } from '../actions';
 
-import UserHeader from './UserHeader';
+import WorkCard from './WorkCard';
 
 class WorkList extends React.Component {
     componentDidMount(){
@@ -10,14 +11,9 @@ class WorkList extends React.Component {
     };
 
     render() {
-        return this.props.works.map(work => {
-            return (
-                <div key={work.id}>
-                    {work.title + " "}
-                    <UserHeader userId={work.userId}/>
-                </div>
-            );
-        });
+        return this.props.works.map(work => 
+            <WorkCard key={work.id} work={work}/>
+        );
     };
 };
 

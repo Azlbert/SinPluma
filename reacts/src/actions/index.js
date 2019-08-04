@@ -24,7 +24,6 @@ export const fetchWorks = () => {
 export const fetchUser = id => {
     return async dispatch => {
         const response = await sinPluma.get('/user/' + id);
-        console.log(response.data.item);
         dispatch({
             type: 'FETCH_USER',
             payload: response.data.item

@@ -1,9 +1,4 @@
-from .user import User
-
-users = [
-    User(1,'echo','pwd'),
-    User(2,'kira','pwd')
-]
+from . import users
 
 username_mapping = {
     u.username : u for u in users
@@ -13,7 +8,7 @@ userid_mapping = {
     u.id : u for u in users
 }
 
-security_key = 'x¿Jlm0_'
+security_key = 'x¿Jñ|lm0_'
 
 def authenticate(username,password):
     user = username_mapping.get(username, None)

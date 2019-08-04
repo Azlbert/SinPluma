@@ -6,6 +6,7 @@
         ".dockerignore": true,
         "env": true,
         "__init__.py": true,
+        "app/__init__.py": true,
     },
     "python.linting.pylintEnabled": true,
     //"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",

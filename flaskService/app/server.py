@@ -1,7 +1,7 @@
-from flask      import Flask
-from flask_jwt  import JWT
-from app.api    import works, user
-from .security  import authenticate, identity, security_key
+from flask          import Flask
+from flask_jwt      import JWT
+from app.resources  import works, user
+from .security      import authenticate, identity, security_key
 
 app = Flask(__name__, instance_relative_config=True)
 
