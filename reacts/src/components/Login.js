@@ -4,20 +4,19 @@ import { Field, reduxForm } from 'redux-form'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import startSession from "../common/Session";
+
 
 class Login extends React.Component{
     
     renderEmail({input}){
         return (
             <TextField
-                id="outlined-email-input"
-                label="Email"
-                type="email"
-                name="email"
-                autoComplete="email"
+                id="outlined-name"
+                label="Username"
                 margin="normal"
                 variant="outlined"
-                {...input} 
+                {...input}
             />
         );
     };
@@ -36,9 +35,9 @@ class Login extends React.Component{
         );
     };
 
-    onSubmit(formValues){
-        console.log(formValues);
-    }
+     onSubmit = async (formValues) => {
+         await startSession(formValues);
+    };
     
     render(){
         return(
@@ -47,8 +46,8 @@ class Login extends React.Component{
                 <br />
                 <Field name="password" component={this.renderPassword}/>
                 <br />
-                <Button fullWidth variant="outlined" size="large" color="primary">
-                    Ingresar
+                <Button fullWidth variant="outlined" size="large" color="secondary" type="submit">
+                    Ingresar!
                 </Button>
             </form>
         );

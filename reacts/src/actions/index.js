@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import sinPluma from "../apis/jsonSinPluma";
+import api from "../common/Api";
 
 export const fetchWorksAndUsers = () => async (dispatch, getState) => {
     await dispatch(fetchWorks());
@@ -13,7 +13,7 @@ export const fetchWorksAndUsers = () => async (dispatch, getState) => {
 
 export const fetchWorks = () => {
     return async dispatch => {
-        const response = await sinPluma.get('/works/');
+        const response = await api.get('/works/');
         dispatch({
             type: 'FETCH_WORKS',
             payload: response.data.books
@@ -23,7 +23,7 @@ export const fetchWorks = () => {
 
 export const fetchUser = id => {
     return async dispatch => {
-        const response = await sinPluma.get('/user/' + id);
+        const response = await api.get('/user/' + id);
         dispatch({
             type: 'FETCH_USER',
             payload: response.data.item
