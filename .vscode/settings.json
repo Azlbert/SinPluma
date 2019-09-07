@@ -5,6 +5,6 @@
         "flaskService": true,
         "mysql": true,
         "reacts": true,
-        "nginx": true,
+        "innodb-cluster": true
     }
 }

@@ -1,6 +1,6 @@
-from flask          import Blueprint, request
-from flask_restful  import Api, Resource, reqparse
-from flask_jwt      import jwt_required
+from flask                  import Blueprint, request
+from flask_restful          import Api, Resource, reqparse
+from flask_jwt_extended     import jwt_required
 #from app.server     import jwt
 
 works = Blueprint('works', __name__)
@@ -29,7 +29,7 @@ class Work(Resource):
         worksList.append(data)
         return data, 201
     
-    @jwt_required()
+    @jwt_required
     def delete(self, title):
         global worksList
         worksList = list(filter(lambda x: x['title'] != title, worksList))
