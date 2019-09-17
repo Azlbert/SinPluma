@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import startSession from "../common/Session";
+import startSession from "../../common/Session";
 
 
 class Login extends React.Component{

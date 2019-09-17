@@ -1,25 +1,25 @@
 import React from 'react';
-// eslint-disable-next-line
-import WorkList from './WorkList';
-// eslint-disable-next-line
-import TopBar from './TopBar';
-// eslint-disable-next-line
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Login from './Login'
+import Template from './Template';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
+import { purple } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+  },
+  typography: {
+    fontSize: 16,
+  },
+});
 
 const App = () => {
-    //return <Button />;
     return (
-        <div>
-          <TopBar />
-          <br />
-          <Grid container
-            justify="space-between"
-            alignItems="flex-start">
-            <Login />
-          </Grid>
-        </div>
+        <ThemeProvider theme={theme}>
+          <CssBaseline/>
+          <Template />
+        </ThemeProvider>
       );
 };
 

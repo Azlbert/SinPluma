@@ -1,7 +1,7 @@
 import React from "react";
 //import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import { fetchWorksAndUsers } from '../actions';
+import { fetchWorksAndUsers } from '../../actions';
 
 import WorkCard from './WorkCard';
 
