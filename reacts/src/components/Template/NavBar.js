@@ -3,14 +3,15 @@ import { List, ListItem, ListItemIcon, ListItemText, Hidden,Drawer } from '@mate
 import MailIcon from '@material-ui/icons/Mail';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 
-import useStyles from "./Style";
+import useStyles from "../Style";
 
 function NavBar(props) {
     const {mobileOpen, handleDrawerToggle, containera} = props;
-    const classes = useStyles();
+    const classes = useStyles.template();
+
     return (
         <React.Fragment>
-            <Hidden smUp>
+            <Hidden mdUp>
                 <Drawer
                     container={containera}
                     variant="temporary"
@@ -23,10 +24,13 @@ function NavBar(props) {
                         keepMounted: true,
                     }}
                 >
+                    <div className={classes.toolbarIcon}>
+                        Sin Pluma
+                    </div>
                     <Menu />
                 </Drawer>
             </Hidden>
-            <Hidden xsDown>
+            <Hidden smDown>
                 <Drawer
                     variant="permanent"
                     classes={{
@@ -34,6 +38,9 @@ function NavBar(props) {
                     }}
                     open
                 >
+                    <div className={classes.toolbarIcon}>
+                        Sin Pluma
+                    </div>
                     <Menu />
                 </Drawer>
             </Hidden>

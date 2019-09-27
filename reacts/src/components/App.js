@@ -1,26 +1,26 @@
-import React from 'react';
-import Template from './Template';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/styles';
-import { purple } from '@material-ui/core/colors';
+import React          from 'react';
+import Template       from './Template';
+import { connect }    from 'react-redux';
+import CssBaseline    from '@material-ui/core/CssBaseline';
+import ThemeProvider  from '@material-ui/styles/ThemeProvider';
+import Cards          from "./Pages/Writer";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: purple,
-  },
-  typography: {
-    fontSize: 16,
-  },
-});
-
-const App = () => {
+const App = (props) => {
     return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline/>
-          <Template />
+        <ThemeProvider theme={props.theme}>
+            <CssBaseline/>
+            <Template>
+                <Cards />
+            </Template>
         </ThemeProvider>
-      );
+    );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+    theme: state.theme
+});
+
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

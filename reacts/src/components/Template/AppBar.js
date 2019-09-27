@@ -1,12 +1,16 @@
-import React from "react";
-import { AppBar as MUIAppBar, Toolbar ,Typography,IconButton, Hidden } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import React        from "react";
+import MUIAppBar    from '@material-ui/core/AppBar';
+import Toolbar      from '@material-ui/core/Toolbar';
+import Typography   from '@material-ui/core/Typography';
+import IconButton   from '@material-ui/core/IconButton';
+import Hidden       from '@material-ui/core/Hidden';
+import MenuIcon     from '@material-ui/icons/Menu';
 
 function AppBar(props){
     return (
         <MUIAppBar className={props.className}>
             <Toolbar>
-                <Hidden smUp>
+                <Hidden mdUp>
                     <IconButton
                         color="inherit"
                         edge="start"

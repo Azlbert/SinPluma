@@ -1,13 +1,12 @@
-import React from 'react';
+import React        from 'react';
 
-import AppBar from "./AppBar";
-import NavBar from "./NavBar";
-import Main from "./Main";
-import useStyles from "./Style";
+import AppBar       from "./AppBar";
+import NavBar       from "./NavBar";
+import useStyles    from "../Style";
 
 function Template(props){
     const { container } = props;
-    const classes = useStyles();
+    const classes = useStyles.template();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const drawerToggle = () => {
@@ -35,8 +34,7 @@ function Template(props){
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Main 
-                />
+                {props.children}
             </main>
         </React.Fragment>
     );
