@@ -1,7 +1,13 @@
 import React from "react";
+import { withRouter } from 'react-router'
+
 import { List, ListItem, ListItemIcon, ListItemText, Hidden,Drawer } from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+
+import SearchIcon from '@material-ui/icons/Search';
+import AccountIcon from '@material-ui/icons/AccountCircle';
+import CreateIcon from '@material-ui/icons/Create';
+import PowerIcon from '@material-ui/icons/PowerSettingsNew';
+import BookIcon from '@material-ui/icons/Book';
 
 import useStyles from "../Style";
 
@@ -27,7 +33,7 @@ function NavBar(props) {
                     <div className={classes.toolbarIcon}>
                         Sin Pluma
                     </div>
-                    <Menu />
+                    <Menu {...props} />
                 </Drawer>
             </Hidden>
             <Hidden smDown>
@@ -41,24 +47,53 @@ function NavBar(props) {
                     <div className={classes.toolbarIcon}>
                         Sin Pluma
                     </div>
-                    <Menu />
+                    <Menu {...props}/>
                 </Drawer>
             </Hidden>
         </React.Fragment>
     );
 };
 
+const menuList = [
+    {
+        text: 'Buscar',
+        icon: <SearchIcon />,
+        link: "/cards/"
+    },
+    {
+        text: 'Perfil',
+        icon: <AccountIcon />,
+        link: "/profile/"
+    },
+    {
+        text: 'Obra',
+        icon: <BookIcon />,
+        link: "/obra/"
+    },
+    {
+        text: 'Editor',
+        icon: <CreateIcon />,
+        link: "/writer/"
+    },
+    {
+        text: 'Login',
+        icon: <PowerIcon />,
+        link: "/login/"
+    },
+];
+
 function Menu(props){
+
     return(
         <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+            {menuList.map((item,index) => (
+            <ListItem button key={index} onClick={() => props.history.push(item.link)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
             </ListItem>
             ))}
         </List>
     );
 };
 
-export default NavBar;
+export default withRouter(NavBar);

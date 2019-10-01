@@ -95,6 +95,36 @@ const writerStyles = theme => ({
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,
     },
+    avatar: {
+        width: 160,
+        height: 160,
+        margin:'auto',
+        marginBottom: theme.spacing(2)
+    },
+});
+
+const profileStyles = theme => ({
+    root: {
+        padding: theme.spacing(3),
+    },
+    title: {
+        fontFamily: '"Montserrat",Times,serif',
+        fontSize: '24px',
+        color:'#505050',
+    },
+    paper: {
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+    },
+    avatar: {
+        width: 160,
+        height: 160,
+        margin:'auto',
+        marginBottom: theme.spacing(2)
+    },
+    info: {
+        paddingLeft: theme.spacing(4)
+    },
 });
 
 const useStyles = {
@@ -102,6 +132,7 @@ const useStyles = {
     workCard:       makeStyles(workCardStyles),
     searchbar:      makeStyles(searchbarStyles),
     writer:         makeStyles(writerStyles),
+    profile:        makeStyles(profileStyles),
 };
 
 export default useStyles;

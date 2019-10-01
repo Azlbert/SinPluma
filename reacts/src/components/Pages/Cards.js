@@ -32,18 +32,18 @@ function WorkCard() {
                     </Hidden>
                     <div className={classes.cardDetails}>
                         <CardContent>
-                        <Typography component="h2" variant="h5">
-                            Post title
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            Post date
-                        </Typography>
-                        <Typography variant="subtitle1" paragraph>
-                            Post description
-                        </Typography>
-                        <Typography variant="subtitle1" color="primary">
-                            Continue reading...
-                        </Typography>
+                            <Typography component="h2" variant="h5">
+                                Post title
+                            </Typography>
+                            <Typography variant="subtitle1" color="textSecondary">
+                                Post date
+                            </Typography>
+                            <Typography variant="subtitle1" paragraph>
+                                Post description
+                            </Typography>
+                            <Typography variant="subtitle1" color="primary">
+                                Continue reading...
+                            </Typography>
                         </CardContent>
                     </div>
                 </Card>
