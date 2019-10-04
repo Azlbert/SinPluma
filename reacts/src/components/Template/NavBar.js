@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from 'react-router'
 
+
 import { List, ListItem, ListItemIcon, ListItemText, Hidden,Drawer } from '@material-ui/core';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -78,7 +79,7 @@ const menuList = [
     {
         text: 'Login',
         icon: <PowerIcon />,
-        link: "/login/"
+        link: "/signout/"
     },
 ];
 

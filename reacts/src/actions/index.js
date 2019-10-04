@@ -36,4 +36,4 @@ export function setTheme(theme) {
       type: SET_THEME,
       theme
     }
-  }
+}

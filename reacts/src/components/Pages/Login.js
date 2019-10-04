@@ -1,4 +1,9 @@
 import React            from 'react';
+import { withRouter } from 'react-router';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import startSession from "../../common/Session";
+
 import Avatar           from '@material-ui/core/Avatar';
 import Button           from '@material-ui/core/Button';
 import CssBaseline      from '@material-ui/core/CssBaseline';
@@ -9,7 +14,7 @@ import Box              from '@material-ui/core/Box';
 import Grid             from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography       from '@material-ui/core/Typography';
-import { makeStyles }   from '@material-ui/core/styles';
+import makeStyles       from '@material-ui/core/styles/makeStyles';
 
 function Copyright() {
     return (
@@ -21,6 +26,7 @@ function Copyright() {
     );
 }
 
+// TODO: Add style to style js file.
 const useStyles = makeStyles(theme => ({
     root: {
         height: '100vh',
@@ -50,10 +56,56 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Login() {
-  const classes = useStyles();
 
-  return (
+function Login(props) {
+    const classes = useStyles();
+
+    // TODO: URGENT! Solve onSubmint async error
+    const onSubmit = (formValues) => {
+        props.startSession(formValues, props.history);
+    };
+
+    const errorMessage = () => {
+        if (props.errorMessage) {
+            return (
+                <div>
+                    {props.errorMessage}
+                </div>
+            );
+        }
+    };
+
+    const renderEmail = ({input}) => {
+        return(<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            {...input}
+        />);
+    };
+
+    const renderPassword = ({input}) => {
+        return(<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Contraseña"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            {...input}
+        />);
+    };
+
+    return (
     <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -65,29 +117,9 @@ export default function Login() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Contraseña"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                    />
+                <form className={classes.form} onSubmit={props.handleSubmit(onSubmit)}>
+                    <Field name="email" component={renderEmail}/>
+                    <Field name="password" component={renderPassword}/>
                     {/* <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
                     label="Recordar"
@@ -112,8 +144,19 @@ export default function Login() {
                     <Copyright />
                     </Box>
                 </form>
+                {errorMessage()}
             </div>
         </Grid>
     </Grid>
     );
 };
+
+function mapStateToProps(state) {
+    return { errorMessage: state.auth.error };
+}
+
+const reduxFormSignin = reduxForm({
+    form: 'login'
+})(withRouter(Login));
+
+export default connect(mapStateToProps, {startSession})(reduxFormSignin);
