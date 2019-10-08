@@ -13,12 +13,8 @@
 			"path": "reacts"
 		},
 		{
-			"name": "mysql",
-			"path": "mysql"
-		},
-		{
 			"name": "innodb cluster",
-			"path": "innodb-cluster"
+			"path": "innodbCluster"
 		}
 	],
 	"settings": {

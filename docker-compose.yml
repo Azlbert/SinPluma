@@ -1,31 +1,134 @@
 version: '3.7'
 
 services:
-  nginx: 
-    build: ./nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - 80:80
-      - 443:443
+    nginx: 
+        build: ./nginx
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        ports:
+            - 80:80
+            - 443:443
+        depends_on:
+            - react
+            - flask
+        networks:
+            - public
+            - frontend
+            - backend
 
-  react:
-    build: ./reacts
-    volumes:
-      - ./reacts/public:/usr/src/app/public
-      - ./reacts/src:/usr/src/app/src
+    react:
+        build: ./reacts
+        volumes:
+            - ./reacts/public:/usr/src/app/public
+            - ./reacts/src:/usr/src/app/src
+        depends_on:
+            - flask
+        networks:
+            - frontend
 
-  flask:
-    build: ./flaskService
-    working_dir: /flask
-    environment: 
-      - PYTHONUNBUFFERED=TRUE
-      - FLASK_ENV=DEVELOPMENT
-    volumes:
-      - ./flaskService:/flask
-    command: gunicorn -b 0.0.0.0:80 --reload wsgi:app    
+    flask:
+        build: ./flaskService
+        working_dir: /flask
+        environment: 
+            - PYTHONUNBUFFERED=TRUE
+            - FLASK_ENV=DEVELOPMENT
+        volumes:
+            - ./flaskService:/flask
+        depends_on:
+            - inno_router
+        networks:
+            - backend
+        command: gunicorn -b 0.0.0.0:80 --reload wsgi:app
+
+    inno_router:
+        container_name: inno_router
+        image: "mysql/mysql-router:8.0.16-0.7-router"
+        environment:
+            - MYSQL_HOST=inno_server_01
+            - MYSQL_PORT=${MYSQL_PORT}
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_INNODB_CLUSTER_MEMBERS=3
+        depends_on: &depands_on
+            - inno_server_01
+            - inno_server_02
+            - inno_server_03
+        networks:
+            - backend
+            - cluster
+        restart: on-failure
+
+    inno_shell:
+        container_name: inno_shell
+        build: ./innodbCluster/mysql_shell
+        env_file:
+            - ./.env
+        networks:
+            - cluster
+        depends_on: *depands_on
+        volumes:
+            - ./innodbCluster/mysql_shell/create_cluster.py:/create_cluster.py
+            - ./innodbCluster/sinpluma.sql:/code.sql
+
+    inno_server_01: &inno_server
+        container_name: inno_server_01
+        image: "mysql/mysql-server:8.0.17-1.1.12"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_ROOT_HOST=${MYSQL_ROOT_HOST}
+        networks:
+            cluster:
+                ipv4_address: 10.10.0.10
+        volumes:
+            - ./innodbCluster/data/inno_server_01:/var/lib/mysql
+            - ./innodbCluster/inno_server_01.cnf:/etc/my.cnf
+        restart: unless-stopped
+
+
+    inno_server_02:
+        <<: *inno_server
+        container_name: inno_server_02
+        networks:
+            cluster:
+                ipv4_address: 10.10.0.11
+        volumes:
+            - ./innodbCluster/data/inno_server_02:/var/lib/mysql
+            - ./innodbCluster/inno_server_02.cnf:/etc/my.cnf
+
+
+    inno_server_03:
+        <<: *inno_server
+        container_name: inno_server_03
+        networks:
+            cluster:
+                ipv4_address: 10.10.0.12
+        volumes:
+            - ./innodbCluster/data/inno_server_03:/var/lib/mysql
+            - ./innodbCluster/inno_server_03.cnf:/etc/my.cnf
+
   
-  #dbmysql:
-  #  build: ./mysql
-  #  volumes:
-  #    - ./mysql/data_volume:/var/lib/mysql
+networks:
+    public:
+        name: public
+        ipam:
+            config:
+                - subnet: 10.100.0.1/16
+    frontend:
+        name: frontend
+        internal: true
+        ipam:
+            config:
+                - subnet: 10.20.0.1/16
+    backend:
+        name: backend
+        internal: true
+        ipam:
+            config:
+                - subnet: 10.30.0.1/16
+    cluster:
+        name: cluster_network
+        internal: true
+        ipam:
+            config:
+                - subnet: 10.10.0.1/16
+

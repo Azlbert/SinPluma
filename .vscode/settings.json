@@ -3,8 +3,7 @@
     "files.exclude": {
         "**/.git": false,
         "flaskService": true,
-        "mysql": true,
         "reacts": true,
-        "innodb-cluster": true
+        "innodbCluster": true
     }
 }

@@ -1,0 +1,97 @@
+ENV:
+MYSQL_VERSION=8.0.13
+MYSQL_USER=root
+MYSQL_PASSWORD=mysql
+# host for the shell and router
+MYSQL_HOST=server-1
+MYSQL_PORT=3306
+MYSQL_ROOT_PASSWORD=mysql
+MYSQL_ROOT_HOST=%
+MYSQL_INNODB_NUM_MEMBERS=3
+MYSQL_CLUSTER_NAME=test
+MYSQL_CLUSTER_OPTIONS='{}'
+~                           
+
+chmod 755 config/docker-entrypoint.sh
+chmod +x ***.sh
+
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+Mysql shell python: mysqlsh --py --uri root:root@inno_server_01:3306
+# configure instances
+Do you want to perform the required configuration changes? [y/n]: y
+Do you want to restart the instance after configuring it? [y/n]: y
+dba.configure_local_instance('mysql_master:3306',{"password":"root"})
+dba.configure_local_instance('mysql_slaveA:3306',{"password":"root"})
+dba.configure_local_instance('mysql_slaveB:3306',{"password":"root"})
+
+# check if is correct
+dba.check_instance_configuration('root:root@mysql_master:3306')
+dba.check_instance_configuration('root:root@mysql_master:3306')
+dba.check_instance_configuration('root:root@mysql_master:3306')
+
+# create cluster (in mysql_master session)
+cluster = dba.create_cluster('Inno_Cluster')
+
+# add slaves
+cluster.add_instance('root:root@mysql_slaveA:3306',{"recoveryMethod":"incremental"})
+cluster.add_instance('root:root@mysql_slaveA:3306',{"recoveryMethod":"incremental"})
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+# configure instances
+#Do you want to perform the required configuration changes? [y/n]: y
+#Do you want to restart the instance after configuring it? [y/n]: y
+#mysqlsh --py --uri root:root@mysql_master:3306 --file=/myc_01_prepare_nodes.py
+
+dba.reboot_cluster_from_complete_outage()
+
+options = {"clusterAdmin": "'cluster_adm'@'%'", "clusterAdminPassword": 'password'}
+
+dba.configure_instance('root:root@mysql_master:3306',options)
+dba.configure_instance('root:root@mysql_slaveA:3306')
+dba.configure_instance('root:root@mysql_slaveB:3306') 
+
+
+dba.check_instance_configuration('cluster_adm:password@mysql_master:3306')
+dba.check_instance_configuration('cluster_adm:password@mysql_slaveA:3306')
+dba.check_instance_configuration('cluster_adm:password@mysql_slaveB:3306') 
+
+
+# create cluster (in mysql_master session)
+cluster = dba.create_cluster('Cluster')
+
+# add slaves
+cluster.add_instance('cluster_adm:password@mysql_slaveA:3306',{"recoveryMethod":"clone"})
+cluster.add_instance('cluster_adm:password@mysql_slaveB:3306',{"recoveryMethod":"clone"})
+
+cluster.status()
+
+""" 
+f = open("/etc/my.cnf", "r")
+print(f.read())
+
+"""
+
+
+
+
+#ba.get_cluster()
+""" cluster = dba.create_cluster('Inno_Cluster')
+cluster.add_instance('root:root@mysql_slaveA:3306',{"recoveryMethod":"incremental"})
+cluster.add_instance('root:root@mysql_slaveB:3306',{"recoveryMethod":"incremental"}) """
+
+
+""" options = {
+    "interactive" : True
+}
+
+dba.configure_local_instance('root:root@mysql_master:3306',options)
+dba.configure_local_instance('root:root@mysql_slaveA:3306',options)
+dba.configure_local_instance('root:root@mysql_slaveB:3306',options) """
