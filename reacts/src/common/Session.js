@@ -15,8 +15,8 @@ function startSession({email, password}, history) {
     return async (dispatch) => {
         try{
             const myJSON = JSON.stringify({
-                username: email,
-                password: password
+                user_name: email,
+                password_hash: password
             });
             let response = await api.post('login', myJSON, {
                 headers: {

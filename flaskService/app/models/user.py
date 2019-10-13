@@ -1,49 +1,42 @@
-import itertools
+from sqlalchemy import BINARY, Column, DateTime, String, text
+from sqlalchemy.dialects.mysql import BIGINT
+from app import db, ma
+import bcrypt
 
-users = []
-username_mapping = {}
-userid_mapping = {}
+class User(db.Model):
+    __tablename__ = 'users'
 
-class User:
-    id_counter = itertools.count(1)
+    user_id = Column(BIGINT(20), primary_key=True)
+    user_name = Column(String(24), nullable=False, unique=True)
+    email = Column(String(254), nullable=False, unique=True)
+    first_name = Column(String(60), nullable=False)
+    last_name = Column(String(60), nullable=False)
+    password_hash = Column(BINARY(64), nullable=False)
+    user_created = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 
-    def __init__(self, username, password):
-        self.id = next(self.id_counter)
-        self.username = username
-        self.password = password
-
-    def __repr__(self):
-        return str(self.id) + ' - ' + str(self.username)
+    @classmethod
+    def find_by_id(cls, id : int):
+        return cls.query.filter_by(user_id=id).first()
     
-    def json(self):
-        return {'id':self.id, 'username': self.username, 'password': self.password}
+    @classmethod
+    def find_by_username(cls, user_name : str):
+        return cls.query.filter_by(user_name=user_name).first()
+    
+    def save_to_db(self):
+        self.password_hash = bcrypt.hashpw(str.encode(self.password_hash), bcrypt.gensalt())
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
 
-    @staticmethod
-    def find_by_username(username: str):
-        user = username_mapping.get(str(username), None)
-        return user.json() if user is not None else None
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+        load_only = ("password_hash",)
 
-    @staticmethod
-    def find_by_id(id: int):
-        user = userid_mapping.get(id, None)
-        return user.json() if user is not None else None
-
-    @staticmethod
-    def get_list(cls) -> []:
-        return users
-
-    @staticmethod
-    def add_user(user):
-        global username_mapping, userid_mapping
-        users.append(user)
-        username_mapping = {
-            u.username : u for u in users
-        }
-        userid_mapping = {
-            u.id : u for u in users
-        }
-
-User.add_user(User('Jose','abcd'))
-User.add_user(User('Daniel','abcd'))
-User.add_user(User('Miguel','abcd'))
-User.add_user(User('Pedroza','abcd'))
+class LoginSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+        fields = ("user_name", "password_hash",)

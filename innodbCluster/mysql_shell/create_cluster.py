@@ -51,7 +51,7 @@ def create_cluster():
 
 def reboot_cluster_from_complete_outage():
     global cluster
-    dba.reboot_cluster_from_complete_outage(cluster['name'],{'rejoinInstances':['inno_server_02:3306','inno_server_02:3306']})
+    dba.reboot_cluster_from_complete_outage(cluster['name'],{'rejoinInstances':['inno_server_02:3306','inno_server_03:3306']})
     cluster = dba.get_cluster(cluster['name'])
     cluster.status()
     print('Cluster recovered!')

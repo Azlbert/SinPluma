@@ -15,6 +15,7 @@ services:
             - public
             - frontend
             - backend
+        restart: on-failure
 
     react:
         build: ./reacts
@@ -25,6 +26,7 @@ services:
             - flask
         networks:
             - frontend
+        restart: on-failure
 
     flask:
         build: ./flaskService
@@ -39,6 +41,7 @@ services:
         networks:
             - backend
         command: gunicorn -b 0.0.0.0:80 --reload wsgi:app
+        restart: on-failure
 
     inno_router:
         container_name: inno_router
@@ -84,7 +87,6 @@ services:
             - ./innodbCluster/inno_server_01.cnf:/etc/my.cnf
         restart: unless-stopped
 
-
     inno_server_02:
         <<: *inno_server
         container_name: inno_server_02
@@ -94,7 +96,6 @@ services:
         volumes:
             - ./innodbCluster/data/inno_server_02:/var/lib/mysql
             - ./innodbCluster/inno_server_02.cnf:/etc/my.cnf
-
 
     inno_server_03:
         <<: *inno_server
@@ -106,7 +107,7 @@ services:
             - ./innodbCluster/data/inno_server_03:/var/lib/mysql
             - ./innodbCluster/inno_server_03.cnf:/etc/my.cnf
 
-  
+
 networks:
     public:
         name: public

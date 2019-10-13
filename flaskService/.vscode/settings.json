@@ -6,9 +6,11 @@
         ".dockerignore": true,
         "env": true,
         "__init__.py": true,
-        "app/__init__.py": true,
+        //"app/__init__.py": true,
     },
     "python.linting.pylintEnabled": true,
+    // it needs pip install pylint-flask
+    //"python.linting.pylintArgs": ["--load-plugins", "pylint-flask"]
     //"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
     //"terminal.integrated.shellArgs.windows": ["/k","env\\Scripts\\activate"]
 }
