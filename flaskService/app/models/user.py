@@ -1,7 +1,9 @@
 from sqlalchemy import BINARY, Column, DateTime, String, text
 from sqlalchemy.dialects.mysql import BIGINT
+from marshmallow import validates, ValidationError
 from app import db, ma
 import bcrypt
+import re
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -31,10 +33,48 @@ class User(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+def is_email_valid(value):
+    regex = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+    return re.fullmatch(regex,value)
+
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
         load_only = ("password_hash",)
+    
+    @validates("user_name")
+    def validate_user_name(self, value):
+        if len(value) < 4:
+            raise ValidationError("Username to short")
+        regex = r'^[a-zA-Z]+(\_[a-zA-Z0-9]+)*$'
+        if not re.fullmatch(regex,value):
+            raise ValidationError("Username with bad format")
+
+    @validates("email")
+    def validate_email(self, value):
+        if not is_email_valid(value):
+            raise ValidationError("Invalid email")
+    
+    @validates("first_name")
+    def validate_first_name(self, value):
+        if len(value) == 0:
+            raise ValidationError("Cannot be empty")
+        regex = r'^[a-zA-Z ]+$'
+        if not re.fullmatch(regex,value):
+            raise ValidationError("First name with bad format")
+    
+    @validates("last_name")
+    def validate_last_name(self, value):
+        if len(value) == 0:
+            raise ValidationError("Cannot be empty")
+        regex = r'^[a-zA-Z ]+$'
+        if not re.fullmatch(regex,value):
+            raise ValidationError("Last name with bad format")
+
+    @validates("password_hash")
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise ValidationError("Password to short")
 
 class LoginSchema(ma.ModelSchema):
     class Meta:
