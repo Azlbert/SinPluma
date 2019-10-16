@@ -25,6 +25,7 @@ def create_app():
     
     @app.errorhandler(ValidationError)
     def handle_marshmallow_validation(err):
+        print(str(err.messages))
         return jsonify(err.messages), 400
     
     @jwt.token_in_blacklist_loader

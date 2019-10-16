@@ -46,7 +46,7 @@ class UserSchema(ma.ModelSchema):
     def validate_user_name(self, value):
         if len(value) < 4:
             raise ValidationError("Username to short")
-        regex = r'^[a-zA-Z]+(\_[a-zA-Z0-9]+)*$'
+        regex = r'^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\_[a-zA-ZÀ-ÿ\u00f1\u00d1]+)*$'
         if not re.fullmatch(regex,value):
             raise ValidationError("Username with bad format")
 
@@ -59,7 +59,7 @@ class UserSchema(ma.ModelSchema):
     def validate_first_name(self, value):
         if len(value) == 0:
             raise ValidationError("Cannot be empty")
-        regex = r'^[a-zA-Z ]+$'
+        regex = r'^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$'
         if not re.fullmatch(regex,value):
             raise ValidationError("First name with bad format")
     
@@ -67,7 +67,7 @@ class UserSchema(ma.ModelSchema):
     def validate_last_name(self, value):
         if len(value) == 0:
             raise ValidationError("Cannot be empty")
-        regex = r'^[a-zA-Z ]+$'
+        regex = r'^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$'
         if not re.fullmatch(regex,value):
             raise ValidationError("Last name with bad format")
 

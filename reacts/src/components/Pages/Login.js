@@ -1,8 +1,8 @@
 import React            from 'react';
-import { withRouter } from 'react-router';
-import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import startSession from "../../common/Session";
+import { withRouter }   from 'react-router';
+import { Field,reduxForm } from 'redux-form';
+import { connect }      from 'react-redux';
+import startSession     from "../../common/Session";
 
 import Avatar           from '@material-ui/core/Avatar';
 import Button           from '@material-ui/core/Button';
@@ -59,6 +59,8 @@ const useStyles = makeStyles(theme => ({
 
 function Login(props) {
     const classes = useStyles();
+
+    const goToSignUp = () => props.history.push('/registrar');
 
     // TODO: URGENT! Solve onSubmint async error
     const onSubmit = (formValues) => {
@@ -135,7 +137,7 @@ function Login(props) {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="" variant="body2" onClick={goToSignUp}>
                                 Crear cuenta.
                             </Link>
                         </Grid>

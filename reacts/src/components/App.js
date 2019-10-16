@@ -14,6 +14,7 @@ import Cards          from "./Pages/Cards";
 import LoginPage      from "./Pages/Login";
 import Profile        from "./Pages/Profile";
 import Work           from "./Pages/Work";
+import SignUp         from "./Pages/SignUp";
 
 import SignOut        from './SignOut'
 
@@ -25,6 +26,7 @@ const App = (props) => {
             <CssBaseline/>
             <BrowserRouter>
                 <Switch>
+                    {/* TODO: Refactor route path */}
                     <Route path="/" exact component={LoginPage} />
                     <Route path="/writer/" component={requireAuth(WriterPage)} />
                     <Route path="/cards/" component={requireAuth(CardsPage)} />
@@ -32,6 +34,7 @@ const App = (props) => {
                     <Route path="/profile/" component={requireAuth(ProfilePage)} />
                     <Route path="/obra/" component={requireAuth(WorkPage)} />
                     <Route path="/signout/" component={requireAuth(SignOut)} />
+                    <Route path="/registrar/" component={noRequireAuth(SignUp)} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
