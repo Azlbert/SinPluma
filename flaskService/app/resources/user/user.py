@@ -3,7 +3,6 @@ from app.models.user        import User as UserModel, UserSchema
 
 user_schema = UserSchema()
 
-print("--- From User Resource ---")
 class User(Resource):
     @classmethod
     def get(cls, id):

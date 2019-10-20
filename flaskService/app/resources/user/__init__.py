@@ -6,8 +6,8 @@ from .login                 import UserLogin
 from .logout                import UserLogout
 from .token_refresh         import TokenRefresh
 
-user = Blueprint('user', __name__)
-api = Api(user)
+user_blueprint = Blueprint('user', __name__)
+api = Api(user_blueprint)
 
 api.add_resource(User, '/user/<int:id>')
 api.add_resource(UserRegister, '/register')

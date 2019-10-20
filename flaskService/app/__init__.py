@@ -25,7 +25,6 @@ def create_app():
     
     @app.errorhandler(ValidationError)
     def handle_marshmallow_validation(err):
-        print(str(err.messages))
         return jsonify(err.messages), 400
     
     @jwt.token_in_blacklist_loader
@@ -33,8 +32,10 @@ def create_app():
         return decrypted_token["jti"] in BLACKLIST
 
     with app.app_context():
-        from .resources.user        import user
-        app.register_blueprint(user)
+        from .resources.user        import user_blueprint
+        from .resources             import notebook_blueprint
+        app.register_blueprint(user_blueprint)
+        app.register_blueprint(notebook_blueprint)
         
         print("--- App created ---")
         return app
