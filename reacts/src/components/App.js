@@ -32,6 +32,7 @@ const App = (props) => {
                     <Route path="/cards/" component={requireAuth(CardsPage)} />
                     <Route path="/login/" component={noRequireAuth(LoginPage)} />
                     <Route path="/profile/" component={requireAuth(ProfilePage)} />
+                    <Route path="/obra/:id" component={requireAuth(WorkPage)} />
                     <Route path="/obra/" component={requireAuth(WorkPage)} />
                     <Route path="/signout/" component={requireAuth(SignOut)} />
                     <Route path="/registrar/" component={noRequireAuth(SignUp)} />
@@ -70,10 +71,12 @@ const ProfilePage = () => {
     );
 };
 
-const WorkPage = () => {
+const WorkPage = (props) => {
+    let { params: { id } } = props.match;
+    if(!id) id = 2;
     return (
         <Template>
-            <Work />
+            <Work id={id}/>
         </Template>
     );
 };

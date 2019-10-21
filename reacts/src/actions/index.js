@@ -26,6 +26,20 @@ export const fetchWorks = () => {
     }
 };
  */
+
+export const fetchWork = id => async (dispatch) => {
+    const response = await api.get('/notebooks/' + id);
+    response.data.user = (await api.get('/user/' + response.data.user)).data;
+    response.data.genre = (await api.get('/genres/' + response.data.genre)).data;
+    response.data.pages = (await api.get('/notebooks/' + id + '/pages/')).data;
+    console.log('response.data.pages');
+    console.log(response.data.pages);
+    dispatch({
+        type: 'FETCH_WORK',
+        payload: response.data
+    });
+} 
+
 export const registerUser = data => {
     return async (dispatch) => {
         let response=null;

@@ -14,7 +14,6 @@ function Template(props){
     }
 
     const getMobileOpen = () => {
-        console.log('Hola')
         return mobileOpen;
     }
     

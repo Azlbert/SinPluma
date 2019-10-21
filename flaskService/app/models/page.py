@@ -21,6 +21,7 @@ class Page(db.Model):
     def find_by_id(cls, id : int):
         return cls.query.filter_by(page_id=id).first()
     
+    
     def save_to_db(self):
         if not self.position:
             count = self.query.filter_by(notebook_id=self.notebook_id).count() + 1
@@ -41,6 +42,9 @@ class Page(db.Model):
     def find_all(cls):
         return cls.query.all()
 
+    @classmethod
+    def find_all_pages_of_notebook(cls, id : int):
+        return cls.query.filter_by(notebook_id=id).all()
 
 class PageSchema(ma.ModelSchema):
     class Meta:
