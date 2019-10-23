@@ -31,6 +31,11 @@ class Notebook(db.Model):
     @classmethod
     def find_all(cls):
         return cls.query.all()
+    
+    @classmethod
+    def find(cls,query:str):
+        search = "%{}%".format(query)
+        return cls.query.filter(cls.title.like(search)).all()
 
 
 class NotebookSchema(ma.ModelSchema):

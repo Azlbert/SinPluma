@@ -3,6 +3,7 @@ from flask_restful          import Api
 from .genre                 import Genre, Genres
 from .notebook              import NotebookPage, Notebook, Notebooks
 from .page                  import Page, Pages
+from .search                import SearchNotebooks
 
 notebook_blueprint = Blueprint('notebook', __name__)
 api = Api(notebook_blueprint)
@@ -14,3 +15,4 @@ api.add_resource(Notebook, '/notebooks/<int:id>')
 api.add_resource(Notebooks, '/notebooks/')
 api.add_resource(Page,  '/pages/<int:id>')
 api.add_resource(Pages, '/pages/')
+api.add_resource(SearchNotebooks, '/search/notebooks/<string:query>')
