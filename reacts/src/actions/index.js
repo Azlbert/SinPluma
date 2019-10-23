@@ -36,10 +36,33 @@ export const fetchWorks = () => async (dispatch, getState) => {
         .forEach(genre_id => dispatch(fetchGenre(genre_id)))
         .value();
 }
+
+export const fetchWorksLike = (query) => async (dispatch, getState) => {
+    console.log("Hi: " + query)
+    await dispatch(fetchWorksListLike(query));
+    
+    _.chain(getState().works)
+        .map('genre_id')
+        .uniq()
+        .forEach(genre_id => dispatch(fetchGenre(genre_id)))
+        .value();
+}
+
  // TODO: Enhance!!!
 const fetchWorksList = () => {
     return async dispatch => {
         const response = await api.get('/notebooks/');
+        
+        dispatch({
+            type: 'FETCH_WORKS',
+            payload: response.data.notebooks
+        });
+    }
+};
+
+const fetchWorksListLike = (query) => {
+    return async dispatch => {
+        const response = await api.get('/search/notebooks/'+query);
         
         dispatch({
             type: 'FETCH_WORKS',

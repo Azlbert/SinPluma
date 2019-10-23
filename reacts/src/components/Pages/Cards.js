@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React, { useEffect,useState }  from "react";
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -16,15 +16,13 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 import { connect } from 'react-redux';
-import { fetchWorks } from '../../actions';
+import { fetchWorksLike } from '../../actions';
 import useStyles from '../Style'
 
 function WorkCard(props) {
     const classes = useStyles.workCard();
     if (typeof props.genre === 'undefined')
         return '';
-    const id = props.work.genre_id;
-    console.log(props.genre)
     return(
         <Grid item xs={12} lg={6} xl={4}>
             <CardActionArea component="a" href="#">
@@ -42,7 +40,7 @@ function WorkCard(props) {
                                 {props.work.title}
                             </Typography>
                             <Typography variant="subtitle1" color="textSecondary">
-                                -> {props.genre[props.work.genre_id]}
+                                {props.genre[props.work.genre_id]}
                             </Typography>
                             <Typography variant="subtitle1" paragraph>
                                 {props.work.resume}
@@ -59,18 +57,29 @@ function WorkCard(props) {
     
 };
 
-function CustomizedInputBase() {
+function CustomizedInputBase(props) {
     const classes = useStyles.searchbar();
-  
+    const [query, setQuery] = useState('');
     return (
       <Paper className={classes.root} elevation={2}>
         <InputBase
           className={classes.input}
           placeholder="Buscar en Sin Pluma"
           inputProps={{ 'aria-label': 'Buscar en Sin Pluma' }}
+          onKeyUp={(event)=> {
+              if (event.keyCode === 13) {
+                  event.preventDefault();
+                  props.fetchWorks(query);
+                  return;
+                }
+                setQuery(event.target.value);
+            }
+            }
         />
         <Divider className={classes.divider} orientation="vertical" />
-        <IconButton className={classes.iconButton} aria-label="search">
+        <IconButton className={classes.iconButton} aria-label="search" onClick={(event)=> {
+                props.fetchWorks(query);
+            }}>
           <SearchIcon />
         </IconButton>
       </Paper>
@@ -84,21 +93,20 @@ function ListCards(props) {
 };
 
 function Cards(props) {
-    useEffect(() => {
+    /* useEffect(() => {
         props.fetchWorks();
-    },[]);
+    },[]); */
     const classes = useStyles.workCard();
-    if(Object.keys(props.works).length === 0){
-        return '';
-    }
+    const works = Object.keys(props.works).length === 0 ? [] : props.works;
+    const genres = Object.keys(props.genres).length === 0 ? [] : props.genres;
     return(
         <React.Fragment>
         <Grid container className={classes.heroContent} justify="center">
-            <CustomizedInputBase />
+            <CustomizedInputBase fetchWorks={props.fetchWorksLike}/>
         </Grid>
         <Container maxWidth="xl">
             <Grid container spacing={4}>
-                <ListCards cards={props.works} genres={props.genres}/>
+                <ListCards cards={works} genres={genres}/>
             </Grid>
         </Container>
         </React.Fragment>
@@ -111,7 +119,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    fetchWorks: fetchWorks
+    fetchWorksLike: fetchWorksLike
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

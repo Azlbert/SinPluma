@@ -19,7 +19,7 @@ function startSession({email, password}, history) {
                     'Content-Type': 'application/json',
                 }
             });
-            sessionStorage.setItem("accessToken", response.data.access_token);
+            localStorage.setItem("accessToken", response.data.access_token);
             dispatch({ type: AUTHENTICATED });
             // TODO: Create config file for the path names.
             history.push('/cards');

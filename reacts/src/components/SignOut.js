@@ -10,7 +10,7 @@ const SignOut = (props) => {
 function mapDispatchToProps(dispatch) {
     return {
         signOutAction: () => {
-            sessionStorage.clear();
+            localStorage.clear();
             dispatch({
                 type: UNAUTHENTICATED
             });
