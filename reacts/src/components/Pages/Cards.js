@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect }  from "react";
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -15,10 +15,16 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
+import { connect } from 'react-redux';
+import { fetchWorks } from '../../actions';
 import useStyles from '../Style'
 
-function WorkCard() {
+function WorkCard(props) {
     const classes = useStyles.workCard();
+    if (typeof props.genre === 'undefined')
+        return '';
+    const id = props.work.genre_id;
+    console.log(props.genre)
     return(
         <Grid item xs={12} lg={6} xl={4}>
             <CardActionArea component="a" href="#">
@@ -33,13 +39,13 @@ function WorkCard() {
                     <div className={classes.cardDetails}>
                         <CardContent>
                             <Typography component="h2" variant="h5">
-                                Post title
+                                {props.work.title}
                             </Typography>
                             <Typography variant="subtitle1" color="textSecondary">
-                                Post date
+                                -> {props.genre[props.work.genre_id]}
                             </Typography>
                             <Typography variant="subtitle1" paragraph>
-                                Post description
+                                {props.work.resume}
                             </Typography>
                             <Typography variant="subtitle1" color="primary">
                                 Continue reading...
@@ -71,9 +77,20 @@ function CustomizedInputBase() {
     );
 };
   
+function ListCards(props) {
+    return props.cards.map(card => 
+        <WorkCard key={card.notebook_id} work={card} genre={props.genres}/>
+    );
+};
 
-export default function Cards() {
+function Cards(props) {
+    useEffect(() => {
+        props.fetchWorks();
+    },[]);
     const classes = useStyles.workCard();
+    if(Object.keys(props.works).length === 0){
+        return '';
+    }
     return(
         <React.Fragment>
         <Grid container className={classes.heroContent} justify="center">
@@ -81,14 +98,20 @@ export default function Cards() {
         </Grid>
         <Container maxWidth="xl">
             <Grid container spacing={4}>
-                <WorkCard />
-                <WorkCard />
-                <WorkCard />
-                <WorkCard />
-                <WorkCard />
-                <WorkCard />
+                <ListCards cards={props.works} genres={props.genres}/>
             </Grid>
         </Container>
         </React.Fragment>
     );
 };
+
+const mapStateToProps = (state) => ({
+    works: state.works,
+    genres: state.genres
+});
+
+const mapDispatchToProps = {
+    fetchWorks: fetchWorks
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);

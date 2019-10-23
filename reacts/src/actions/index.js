@@ -1,4 +1,4 @@
-/* import _ from 'lodash'; */
+import _ from 'lodash';
 import api from "../common/Api";
 
 import {
@@ -27,13 +27,45 @@ export const fetchWorks = () => {
 };
  */
 
+export const fetchWorks = () => async (dispatch, getState) => {
+    await dispatch(fetchWorksList());
+    
+    _.chain(getState().works)
+        .map('genre_id')
+        .uniq()
+        .forEach(genre_id => dispatch(fetchGenre(genre_id)))
+        .value();
+}
+ // TODO: Enhance!!!
+const fetchWorksList = () => {
+    return async dispatch => {
+        const response = await api.get('/notebooks/');
+        
+        dispatch({
+            type: 'FETCH_WORKS',
+            payload: response.data.notebooks
+        });
+    }
+};
+
+export const fetchGenre = id => {
+    return async dispatch => {
+        const response = await api.get('/genres/' + id);
+        //console.log(response.data);
+        dispatch({
+            type: 'FETCH_GENRE',
+            payload: response.data
+        });
+    }
+};
+
 export const fetchWork = id => async (dispatch) => {
     const response = await api.get('/notebooks/' + id);
     response.data.user = (await api.get('/user/' + response.data.user)).data;
     response.data.genre = (await api.get('/genres/' + response.data.genre)).data;
     response.data.pages = (await api.get('/notebooks/' + id + '/pages/')).data;
-    console.log('response.data.pages');
-    console.log(response.data.pages);
+    /* console.log('response.data.pages');
+    console.log(response.data.pages); */
     dispatch({
         type: 'FETCH_WORK',
         payload: response.data
