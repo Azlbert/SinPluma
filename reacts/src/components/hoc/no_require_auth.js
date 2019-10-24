@@ -6,13 +6,13 @@ const redirectTo = '/cards';
 
 export default function (ComposedComponent) {
     class NotAuthentication extends Component {
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             if (this.props.authenticated) {
                 this.props.history.push(redirectTo);
             }
         }
 
-        componentWillUpdate(nextProps) {
+        UNSAFE_componentWillUpdate(nextProps) {
             if (nextProps.authenticated) {
                 this.props.history.push(redirectTo);
             }

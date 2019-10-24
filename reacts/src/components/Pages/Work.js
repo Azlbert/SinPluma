@@ -15,8 +15,8 @@ import useStyles from "../Style";
 
 function SimpleTable(rows) {
     return (
-      <Paper /* className={classes.root} */>
-        <Table /* className={classes.table} */>
+      <Paper>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>Capitulo</TableCell>
@@ -24,12 +24,12 @@ function SimpleTable(rows) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.rows.pages.map(row => (
-                <TableRow>
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="right">12</TableCell>
+            {rows.rows.pages.map((row,id) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {row.title}
+                  </TableCell>
+                  <TableCell align="right">12</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -41,7 +41,7 @@ function SimpleTable(rows) {
 function Work(props) {
     useEffect(() => {
         props.fetchWork(props.id);
-    },[]);
+    });
     const classes = useStyles.profile();
     if(Object.keys(props.work).length === 0){
         return '';

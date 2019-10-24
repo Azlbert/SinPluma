@@ -1,4 +1,4 @@
-import React, { useEffect,useState }  from "react";
+import React, { useState }  from "react";
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchWorksLike } from '../../actions';
 import useStyles from '../Style'
@@ -23,9 +24,10 @@ function WorkCard(props) {
     const classes = useStyles.workCard();
     if (typeof props.genre === 'undefined')
         return '';
+    const url = '/obra/' + props.work.notebook_id;
     return(
         <Grid item xs={12} lg={6} xl={4}>
-            <CardActionArea component="a" href="#">
+            <CardActionArea component="a" href="" onClick={() => props.history.push(url)}>
                 <Card className={classes.card}>
                     <Hidden xsDown>
                         <CardMedia
@@ -87,8 +89,8 @@ function CustomizedInputBase(props) {
 };
   
 function ListCards(props) {
-    return props.cards.map(card => 
-        <WorkCard key={card.notebook_id} work={card} genre={props.genres}/>
+    return props.cards.map((card) => 
+        <WorkCard key={card.notebook_id} work={card} genre={props.genres} history={props.history}/>
     );
 };
 
@@ -106,7 +108,7 @@ function Cards(props) {
         </Grid>
         <Container maxWidth="xl">
             <Grid container spacing={4}>
-                <ListCards cards={works} genres={genres}/>
+                <ListCards cards={works} genres={genres} history={props.history}/>
             </Grid>
         </Container>
         </React.Fragment>
@@ -122,4 +124,4 @@ const mapDispatchToProps = {
     fetchWorksLike: fetchWorksLike
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(Cards);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Cards));

@@ -22,6 +22,15 @@ def create_app():
     ma.init_app(app)
     
     jwt = JWTManager(app)
+
+    @jwt.user_claims_loader
+    def add_claims_to_access_token(identity):
+        from .models.user import User as UserModel
+        user = UserModel.find_by_id(identity)
+        return {
+            'fname': user.first_name,
+            'lname': user.last_name,
+        }
     
     @app.errorhandler(ValidationError)
     def handle_marshmallow_validation(err):

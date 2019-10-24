@@ -6,7 +6,11 @@ import IconButton   from '@material-ui/core/IconButton';
 import Hidden       from '@material-ui/core/Hidden';
 import MenuIcon     from '@material-ui/icons/Menu';
 
+import { connect } from 'react-redux';
+
 function AppBar(props){
+    const account = props.account;
+    console.log(account);
     return (
         <MUIAppBar className={props.className}>
             <Toolbar>
@@ -21,11 +25,18 @@ function AppBar(props){
                     </IconButton>
                 </Hidden>
                 <Typography variant="h6" noWrap>
-                    Responsive drawer
+                    {account.fname}
                 </Typography>
             </Toolbar>
         </MUIAppBar>
     );
 };
 
-export default AppBar;
+const mapStateToProps = (state) => ({
+    account: state.account
+});
+
+const mapDispatchToProps = {
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(AppBar);

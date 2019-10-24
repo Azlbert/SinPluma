@@ -6,27 +6,6 @@ import {
     USER_CREATED
   } from '../common/Session';
 
-/* export const fetchWorksAndUsers = () => async (dispatch, getState) => {
-    await dispatch(fetchWorks());
-    
-    _.chain(getState().works)
-        .map('userId')
-        .uniq()
-        .forEach(id => dispatch(fetchUser(id)))
-        .value();
-};
-
-export const fetchWorks = () => {
-    return async dispatch => {
-        const response = await api.get('/works/');
-        dispatch({
-            type: 'FETCH_WORKS',
-            payload: response.data.books
-        });
-    }
-};
- */
-
 export const fetchWorks = () => async (dispatch, getState) => {
     await dispatch(fetchWorksList());
     
@@ -38,7 +17,6 @@ export const fetchWorks = () => async (dispatch, getState) => {
 }
 
 export const fetchWorksLike = (query) => async (dispatch, getState) => {
-    console.log("Hi: " + query)
     await dispatch(fetchWorksListLike(query));
     
     _.chain(getState().works)
@@ -48,7 +26,6 @@ export const fetchWorksLike = (query) => async (dispatch, getState) => {
         .value();
 }
 
- // TODO: Enhance!!!
 const fetchWorksList = () => {
     return async dispatch => {
         const response = await api.get('/notebooks/');

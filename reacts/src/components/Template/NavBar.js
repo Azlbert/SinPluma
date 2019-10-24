@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 
 import { List, ListItem, ListItemIcon, ListItemText, Hidden,Drawer } from '@material-ui/core';
@@ -84,7 +84,6 @@ const menuList = [
 ];
 
 function Menu(props){
-
     return(
         <List>
             {menuList.map((item,index) => (

@@ -9,25 +9,27 @@ import { BrowserRouter, Switch, Route/* , Link */ } from "react-router-dom";
 import requireAuth from './hoc/requiere_auth';
 import noRequireAuth from './hoc/no_require_auth';
 
+import { loadSession } from '../common/Session';
+
 import Writer         from "./Pages/Writer";
 import Cards          from "./Pages/Cards";
 import LoginPage      from "./Pages/Login";
 import Profile        from "./Pages/Profile";
 import Work           from "./Pages/Work";
 import SignUp         from "./Pages/SignUp";
-
 import SignOut        from './SignOut'
 
 // TODO: Refactor routes
 
 const App = (props) => {
+    props.loadSession();
     return (
         <ThemeProvider theme={props.theme}>
             <CssBaseline/>
             <BrowserRouter>
                 <Switch>
                     {/* TODO: Refactor route path */}
-                    <Route path="/" exact component={LoginPage} />
+                    <Route path="/" exact component={noRequireAuth(LoginPage)} />
                     <Route path="/writer/" component={requireAuth(WriterPage)} />
                     <Route path="/cards/" component={requireAuth(CardsPage)} />
                     <Route path="/login/" component={noRequireAuth(LoginPage)} />
@@ -85,7 +87,4 @@ const mapStateToProps = (state) => ({
     theme: state.theme
 });
 
-const mapDispatchToProps = {
-};
-
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps,{loadSession})(App);

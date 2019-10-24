@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 export default function (ComposedComponent) {
     class Authentication extends Component {
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
             if (!this.props.authenticated) {
                 this.props.history.push('/login');
             }
         }
 
-        componentWillUpdate(nextProps) {
+        UNSAFE_componentWillUpdate(nextProps) {
             if (!nextProps.authenticated) {
                 this.props.history.push('/login');
             }

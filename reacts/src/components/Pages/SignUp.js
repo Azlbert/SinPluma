@@ -180,7 +180,7 @@ function SignUp(props) {
                 <Grid container justify="flex-end">
                 <Grid item>
                     <Link href="" variant="body2" onClick={goToLogin}>
-                    Iniciar sesión
+                        Iniciar sesión
                     </Link>
                 </Grid>
                 </Grid>
@@ -200,7 +200,7 @@ function SignUp(props) {
                 <Typography component="h1" variant="h5">
                     ¡Usuario creado!
                 </Typography>
-                <Link href="" variant="body2" variant="h5" onClick={goToLogin}>
+                <Link href="" variant="h5" onClick={goToLogin}>
                     Iniciar sesión
                 </Link>
             </div>
