@@ -7,6 +7,7 @@ import accountReducer from './accountReducer';
 import genreReducer from './genreReducer';
 import themeReducer from './themeReducer';
 import authReducer from './authReducer';
+import pageReducer from './pageReducer';
 
 export default combineReducers({
     form: formReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     users: usersReducer,
     genres: genreReducer,
     theme: themeReducer,
+    page: pageReducer,
     auth: authReducer
 });

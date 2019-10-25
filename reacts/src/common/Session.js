@@ -38,7 +38,6 @@ export function startSession({email, password}, history) {
 export function loadSession() {
     return async (dispatch) => {
         const response = localStorage.getItem("accessToken");
-        console.log(response);
         if(typeof response !== 'undefined') {
             dispatch({ type: AUTHENTICATED });
             dispatch({

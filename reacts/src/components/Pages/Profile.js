@@ -92,10 +92,10 @@ export default function Profile() {
             <Paper className={classes.paper}>
                 <Avatar alt="Remy Sharp" src="https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg" className={classes.avatar}/>
                 <Typography variant="h5" gutterBottom>
-                    Maria la que no queria
+                    Ejemplo
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                    "Data algo mas."
+                    "info..."
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                     Se unio el 

@@ -30,6 +30,7 @@ const App = (props) => {
                 <Switch>
                     {/* TODO: Refactor route path */}
                     <Route path="/" exact component={noRequireAuth(LoginPage)} />
+                    <Route path="/writer/:id" component={requireAuth(WriterPage)} />
                     <Route path="/writer/" component={requireAuth(WriterPage)} />
                     <Route path="/cards/" component={requireAuth(CardsPage)} />
                     <Route path="/login/" component={noRequireAuth(LoginPage)} />
@@ -49,10 +50,12 @@ const NotFound = () => {
     return 'Oh, not found, baby!';
 }
 
-const WriterPage = () => {
+const WriterPage = (props) => {
+    let { params: { id } } = props.match;
+    if(!id) id = 24;
     return (
         <Template>
-            <Writer />
+            <Writer id={id}/>
         </Template>
     );
 };

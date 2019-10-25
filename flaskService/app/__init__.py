@@ -28,6 +28,7 @@ def create_app():
         from .models.user import User as UserModel
         user = UserModel.find_by_id(identity)
         return {
+            'id':user.user_id,
             'fname': user.first_name,
             'lname': user.last_name,
         }

@@ -50,6 +50,7 @@ class PageSchema(ma.ModelSchema):
     class Meta:
         model = Page
         dump_only = ("position",)
+        load_only = ("content",)
         include_fk = True
     
     @validates("position")
@@ -61,3 +62,9 @@ class PageSchema(ma.ModelSchema):
     def validate_notebook_id(self, value: id):
         if Notebook.find_by_id(value) == None:
             raise ValidationError("The notebook does not exist")
+    
+class PageEditorSchema(ma.ModelSchema):
+    class Meta:
+        model = Page
+        fields = ("content","title",)
+        include_fk = True

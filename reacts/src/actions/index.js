@@ -51,7 +51,7 @@ const fetchWorksListLike = (query) => {
 export const fetchGenre = id => {
     return async dispatch => {
         const response = await api.get('/genres/' + id);
-        //console.log(response.data);
+        
         dispatch({
             type: 'FETCH_GENRE',
             payload: response.data
@@ -64,8 +64,7 @@ export const fetchWork = id => async (dispatch) => {
     response.data.user = (await api.get('/user/' + response.data.user)).data;
     response.data.genre = (await api.get('/genres/' + response.data.genre)).data;
     response.data.pages = (await api.get('/notebooks/' + id + '/pages/')).data;
-    /* console.log('response.data.pages');
-    console.log(response.data.pages); */
+
     dispatch({
         type: 'FETCH_WORK',
         payload: response.data
@@ -110,4 +109,26 @@ export function setTheme(theme) {
       type: 'SET_THEME',
       theme
     }
+}
+
+export const loadPage = id => async (dispatch, getState) => {
+    const response = await api.get('/pages/'+id+'?mode=editor');
+    dispatch({
+        type: 'FETCH_PAGE',
+        payload: response.data
+    });
+}
+
+export const savePage = (data, id) => async (dispatch, getState) => {
+    const page = dispatch({
+        type: 'FETCH_PAGE',
+        payload: data
+    });
+
+    const myJSON = JSON.stringify(data);
+    await api.put('/pages/'+id, myJSON, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
 }

@@ -10,33 +10,34 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { fetchWork } from '../../actions';
 import useStyles from "../Style";
 
-function SimpleTable(rows) {
+function SimpleTable(props) {
     return (
       <Paper>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Capitulo</TableCell>
-              <TableCell align="right"># Palabras</TableCell>
+                <TableCell>Capitulo</TableCell>
+                <TableCell align="right"># Palabras</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.rows.pages.map((row,id) => (
-                <TableRow key={id}>
-                  <TableCell component="th" scope="row">
+            {props.rows.pages.map((row,id) => (
+                <TableRow key={id} component="a" href={""} style={{color:'rgba(0,0,0,0)'}} onClick={() => props.history.push("/writer/"+row.page_id)}>
+                <TableCell component="th" scope="row">
                     {row.title}
-                  </TableCell>
-                  <TableCell align="right">12</TableCell>
-              </TableRow>
+                </TableCell>
+                <TableCell align="right">12</TableCell>
+                </TableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
     );
-  }
+}
 
 function Work(props) {
     useEffect(() => {
@@ -77,20 +78,20 @@ function Work(props) {
                     <br />
                 </Paper>
                 <Typography variant="h5" gutterBottom className={classes.paper} style={{marginTop:'20px'}}>
-                        Tabla de contenido
+                    Tabla de contenido
                 </Typography>
-                <SimpleTable rows={props.work.pages}/>
+                <SimpleTable rows={props.work.pages} history={props.history}/>
             </Grid>
         </Grid>
     );
 };
 
 const mapStateToProps = (state) => ({
-  work: state.work
+    work: state.work
 });
 
 const mapDispatchToProps = {
-  fetchWork: fetchWork
+    fetchWork: fetchWork
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Work);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Work));

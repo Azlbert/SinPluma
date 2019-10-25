@@ -1,14 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 import useStyles from "../Style";
 
-import { connect } from 'react-redux';
 import { Editor } from 'slate-react'
 import { Value } from 'slate'
-import { loadPage, savePage } from '../../actions';
+
+// TODO: To mucho to do here
+
+const initialValue = Value.fromJSON({
+    document: {
+        nodes: [
+            {
+                object: 'block',
+                type: 'paragraph',
+                nodes: [
+                    {
+                        object: 'text',
+                        text: 'Escribe...',
+                    },
+                ],
+            },
+        ],
+    },
+});
 
 function CodeNode(props) {
     return (
@@ -28,42 +45,14 @@ function BoldMark(props) {
     return <mark style={{backgroundColor:'cyan',marginTop:'0px'}}>{props.children}</mark>
 }
 
-function parseContent(content) {
-    const existingValue = content == "" ? null : JSON.parse(content);
-    const initialValue = Value.fromJSON(
-        existingValue || {
-            document: {
-            nodes: [
-                {
-                object: 'block',
-                type: 'paragraph',
-                nodes: [
-                    {
-                    object: 'text',
-                    text: 'Escribir...',
-                    },
-                ],
-                },
-            ],
-            },
-        }
-    );
-    return initialValue;
-}
-
-function Write(props) {
+function Write() {
     const classes = useStyles.writer();
     const [state, setState] = React.useState({
-        value: parseContent(props.page.content),
+        value: initialValue,
     });
 
     const onChange = ({ value }) => {
-        if (value.document != state.value.document) {
-            const content = JSON.stringify(value.toJSON())
-            props.page.content = content;
-            props.save(props.page,props.id);
-            setState({ value });
-        }
+        setState({ value })
     };
 
     const onKeyDown = (event, editor, next) => {
@@ -125,21 +114,13 @@ function Write(props) {
     );
 }
 
-function Writer(props) {
-    useState(() => {
-        props.loadPage(props.id);
-    });
-    //console.log('Inside write ' + props.id);
+export default function Page() {
     const classes = useStyles.writer();
-
-    if(props.page === null){
-        return '';
-    }
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={8}>
                 <TextField
-                        placeholder={"Agregar un titulo"}
+                        placeholder="Un titulo"
                         fullWidth
                         margin="normal"
                         InputProps={{
@@ -147,33 +128,15 @@ function Writer(props) {
                                 input: classes.title,
                             },
                         }}
-                        value={props.page.title}
                         style={{marginBottom:'24px',marginTop:'35px'}}
-                        onKeyUp={(event)=> {
-                            props.page.title = event.target.value;
-                            props.savePage(props.page,props.id);
-                        }}
                 />
                 <Paper>
-                    <Write page={props.page} save={props.savePage} id={props.id}/>
+                    <Write />
                 </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
-                <Paper className={classes.paper} style={{marginBottom:'24px',marginTop:'35px',marginLeft:'24px'}}>
-                    Hola
-                </Paper>
+                <Paper className={classes.paper} style={{marginBottom:'24px',marginTop:'35px',marginLeft:'24px'}}>Hola</Paper>
             </Grid>
         </Grid>
     );
 };
-
-const mapStateToProps = (state) => ({
-    page: state.page,
-});
-
-const mapDispatchToProps = {
-    loadPage: loadPage,
-    savePage: savePage
-};
-  
-export default connect(mapStateToProps, mapDispatchToProps)(Writer);
