@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { reducer as formReducer } from 'redux-form';
 import worksReducer from './worksReducer';
 import workReducer from './workReducer';
+import userReducer from './userReducer';
 import usersReducer from './usersReducer';
 import accountReducer from './accountReducer';
 import genreReducer from './genreReducer';
@@ -14,6 +15,7 @@ export default combineReducers({
     works: worksReducer,
     work: workReducer,
     account: accountReducer,
+    user: userReducer,
     users: usersReducer,
     genres: genreReducer,
     theme: themeReducer,

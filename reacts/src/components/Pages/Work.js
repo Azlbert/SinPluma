@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchWork } from '../../actions';
-import useStyles from "../Style";
+import useStyles from '../../common/Style';
 
 function SimpleTable(props) {
     return (
@@ -40,10 +40,10 @@ function SimpleTable(props) {
 }
 
 function Work(props) {
+    const classes = useStyles.profile();
     useEffect(() => {
         props.fetchWork(props.id);
     });
-    const classes = useStyles.profile();
     if(Object.keys(props.work).length === 0){
         return '';
     }

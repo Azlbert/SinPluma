@@ -9,7 +9,7 @@ import { BrowserRouter, Switch, Route/* , Link */ } from "react-router-dom";
 import requireAuth from './hoc/requiere_auth';
 import noRequireAuth from './hoc/no_require_auth';
 
-import { loadSession } from '../common/Session';
+import { loadSession, getSession } from '../common/Session';
 
 import Writer         from "./Pages/Writer";
 import Cards          from "./Pages/Cards";
@@ -34,7 +34,8 @@ const App = (props) => {
                     <Route path="/writer/" component={requireAuth(WriterPage)} />
                     <Route path="/cards/" component={requireAuth(CardsPage)} />
                     <Route path="/login/" component={noRequireAuth(LoginPage)} />
-                    <Route path="/profile/" component={requireAuth(ProfilePage)} />
+                    <Route path="/perfil/:id" component={requireAuth(ProfilePage)} />
+                    <Route path="/perfil/" component={requireAuth(ProfilePage)}/>
                     <Route path="/obra/:id" component={requireAuth(WorkPage)} />
                     <Route path="/obra/" component={requireAuth(WorkPage)} />
                     <Route path="/signout/" component={requireAuth(SignOut)} />
@@ -68,10 +69,12 @@ const CardsPage = () => {
     );
 };
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
+    let { params: { id } } = props.match;
+    if(!id) id = getSession().id;
     return (
         <Template>
-            <Profile />
+            <Profile id={id}/>
         </Template>
     );
 };

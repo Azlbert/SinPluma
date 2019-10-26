@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import useStyles from "../Style";
+import useStyles from '../../common/Style';
 
 import { connect } from 'react-redux';
 import { Editor } from 'slate-react'
@@ -29,7 +29,7 @@ function BoldMark(props) {
 }
 
 function parseContent(content) {
-    const existingValue = content == "" ? null : JSON.parse(content);
+    const existingValue = content === "" ? null : JSON.parse(content);
     const initialValue = Value.fromJSON(
         existingValue || {
             document: {
@@ -58,7 +58,7 @@ function Write(props) {
     });
 
     const onChange = ({ value }) => {
-        if (value.document != state.value.document) {
+        if (value.document !== state.value.document) {
             const content = JSON.stringify(value.toJSON())
             props.page.content = content;
             props.save(props.page,props.id);

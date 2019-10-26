@@ -20,6 +20,10 @@ class Notebook(db.Model):
     def find_by_id(cls, id : int):
         return cls.query.filter_by(notebook_id=id).first()
     
+    @classmethod
+    def find_all_by_user(cls, id : int):
+        return cls.query.filter_by(user_id=id).all()
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

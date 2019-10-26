@@ -10,7 +10,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import BookIcon from '@material-ui/icons/Book';
 
-import useStyles from "../Style";
+import useStyles from '../../common/Style';
 
 function NavBar(props) {
     const {mobileOpen, handleDrawerToggle, containera} = props;
@@ -64,7 +64,7 @@ const menuList = [
     {
         text: 'Perfil',
         icon: <AccountIcon />,
-        link: "/profile/"
+        link: "/perfil/"
     },
     {
         text: 'Obra',

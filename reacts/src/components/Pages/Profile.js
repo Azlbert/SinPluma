@@ -1,5 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { fetchUser, fetchUserWorks } from '../../actions';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -9,10 +12,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import useStyles from "../Style";
+import WorkCard from '../Elements/WorkCard';
+import useStyles from '../../common/Style';
 
 // TODO: Refactor Profile
 // TODO: Correct resizing
+
+function ListCards(props) {
+  return props.cards.map((card) => 
+      <WorkCard key={card.notebook_id} work={card} lg={12} xl={12}/>
+  );
+};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,13 +66,17 @@ function a11yProps(index) {
   };
 }
 
-function DisabledTabs() {
+
+function UserTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  
+  /* const works = typeof props.works != 'object' ? props.works : [];
+  console.log(works); */
   return (
     <Paper square>
       <Tabs
@@ -76,7 +90,9 @@ function DisabledTabs() {
         <LinkTab label="Leyendo" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Page One
+        <Grid container spacing={4}>
+                <ListCards cards={props.works} />
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Page Two
@@ -84,28 +100,56 @@ function DisabledTabs() {
     </Paper>
   );
 }
-export default function Profile() {
+
+
+function Profile(props) {
     const classes = useStyles.profile();
+    useState(() => {
+        props.fetchUser(props.id);
+        props.fetchUserWorks(props.id);
+    });
+    let name, userName, userCreated, works;
+    try{
+        name = props.user.last_name + " " + props.user.first_name;
+        userName = props.user.user_name;
+        userCreated = props.user.user_created.substring(0, 10);
+        works = Array.isArray(props.works) ? props.works : [];
+    }catch(_){
+        return '';
+    }
+    console.log(works);
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={3}>
             <Paper className={classes.paper}>
                 <Avatar alt="Remy Sharp" src="https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg" className={classes.avatar}/>
                 <Typography variant="h5" gutterBottom>
-                    Ejemplo
+                    {name}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    @{userName}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                    "info..."
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                    Se unio el 
+                    Se unio el {userCreated}
                 </Typography>
                 <br />
             </Paper>
             </Grid>
             <Grid item xs={12} md={9} className={classes.info}>
-                <DisabledTabs/>
+                <UserTabs works={works}/>
             </Grid>
         </Grid>
     );
 };
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    works: state.works,
+});
+
+const mapDispatchToProps = {
+    fetchUser: fetchUser,
+    fetchUserWorks: fetchUserWorks
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Profile));

@@ -16,6 +16,16 @@ export const fetchWorks = () => async (dispatch, getState) => {
         .value();
 }
 
+export const fetchUserWorks = id => async (dispatch, getState) => {
+    await dispatch(fetchUserWorksList(id));
+    
+    _.chain(getState().works)
+        .map('genre_id')
+        .uniq()
+        .forEach(genre_id => dispatch(fetchGenre(genre_id)))
+        .value();
+}
+
 export const fetchWorksLike = (query) => async (dispatch, getState) => {
     await dispatch(fetchWorksListLike(query));
     
@@ -26,9 +36,19 @@ export const fetchWorksLike = (query) => async (dispatch, getState) => {
         .value();
 }
 
-const fetchWorksList = () => {
+const fetchWorksList = () =>  async dispatch => {
+    const response = await api.get('/notebooks/');
+    
+    dispatch({
+        type: 'FETCH_WORKS',
+        payload: response.data.notebooks
+    });
+};
+
+const fetchUserWorksList = id => {
     return async dispatch => {
-        const response = await api.get('/notebooks/');
+        const response = await api.get('/user/' + id +'/notebooks');
+        console.log(response);
         
         dispatch({
             type: 'FETCH_WORKS',
@@ -37,7 +57,7 @@ const fetchWorksList = () => {
     }
 };
 
-const fetchWorksListLike = (query) => {
+const fetchWorksListLike = query => {
     return async dispatch => {
         const response = await api.get('/search/notebooks/'+query);
         
@@ -56,6 +76,17 @@ export const fetchGenre = id => {
             type: 'FETCH_GENRE',
             payload: response.data
         });
+    }
+};
+
+export const fetchUser = id => {
+    return async dispatch => {
+        const response = await api.get('/user/' + id);
+        dispatch({
+            type: 'FETCH_USER',
+            payload: response.data
+        });
+        console.log(response);
     }
 };
 
@@ -111,7 +142,7 @@ export function setTheme(theme) {
     }
 }
 
-export const loadPage = id => async (dispatch, getState) => {
+export const loadPage = id => async dispatch => {
     const response = await api.get('/pages/'+id+'?mode=editor');
     dispatch({
         type: 'FETCH_PAGE',
@@ -120,7 +151,7 @@ export const loadPage = id => async (dispatch, getState) => {
 }
 
 export const savePage = (data, id) => async (dispatch, getState) => {
-    const page = dispatch({
+    dispatch({
         type: 'FETCH_PAGE',
         payload: data
     });

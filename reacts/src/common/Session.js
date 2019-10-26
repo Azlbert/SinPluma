@@ -38,7 +38,7 @@ export function startSession({email, password}, history) {
 export function loadSession() {
     return async (dispatch) => {
         const response = localStorage.getItem("accessToken");
-        if(typeof response !== 'undefined') {
+        if(typeof response !== 'undefined' && response != null) {
             dispatch({ type: AUTHENTICATED });
             dispatch({
                 type: 'SET_ACCOUNT',
@@ -48,6 +48,14 @@ export function loadSession() {
         }
     };
 };
+
+export function getSession(){
+    const response = localStorage.getItem("accessToken");
+    if(typeof response !== 'undefined' && response != null) {
+        return parseJwt(response).user_claims;
+    }
+    return null;
+}
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];

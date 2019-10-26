@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import useStyles from "../Style";
+import useStyles from '../../common/Style';
 
 import { Editor } from 'slate-react'
 import { Value } from 'slate'

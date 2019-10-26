@@ -2,7 +2,7 @@ import React        from 'react';
 
 import AppBar       from "./AppBar";
 import NavBar       from "./NavBar";
-import useStyles    from "../Style";
+import useStyles    from '../../common/Style';
 
 function Template(props){
     const { container } = props;
