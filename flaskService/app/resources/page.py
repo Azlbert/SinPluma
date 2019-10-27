@@ -21,6 +21,7 @@ class Page(Resource):
     
     @classmethod
     def put(cls, id: int):
+        print('Si entra')
         page = PageModel.find_by_id(id)
         if not page:
             return {'message':'Notebook not found'}, 404
