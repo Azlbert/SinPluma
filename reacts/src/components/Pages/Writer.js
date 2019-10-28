@@ -47,7 +47,7 @@ function Writer(props) {
             </Grid>
             <Grid item xs={12} md={4}>
                 <Paper className={classes.paper} style={{marginBottom:'24px',marginTop:'35px',marginLeft:'24px'}}>
-                    <Button variant="contained" color="primary"  onClick={() => typeof child !== 'undefined' ? child.onInputChange() : ''}>Probar</Button>
+                    <Button variant="contained" color="primary"  onClick={() => typeof child !== 'undefined' ? child.analize() : ''}>Analizar</Button>
                 </Paper>
             </Grid>
         </Grid>

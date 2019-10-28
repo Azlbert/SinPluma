@@ -104,6 +104,7 @@ export const registerUser = data => async dispatch => {
             email: data['email'],
             password_hash: data['password']
         });
+        console.log(myJSON);
         response = await api.post('register', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +121,6 @@ export const registerUser = data => async dispatch => {
             type: AUTHENTICATION_ERROR,
             payload: error.response.data
         });
-        console.log('--->Error');
     }
 };
 
@@ -154,15 +154,26 @@ export const savePage = (data, id) => async (dispatch, getState) => {
 };
 
 export const sentiment = sentences => async dispatch => {
-    let req = [
-        api.get('/notebooks/2'), 
-        api.get('/notebooks/2'), 
-        api.get('/notebooks/2'), 
-        api.get('/notebooks/2'), 
-        api.get('/notebooks/2'),
-      ];
-    Promise.all(req).then(req1=> {
-        console.log(req1);
+    if(sentences !== null){
+        let req = [];
+        let url = '';
+        sentences.forEach(element => {
+            url = '/sentiment/?key='+element.key+'&sentence='+element.sentence.trim();
+            req.push(api.get(url));
+        });
+        let responses = []
+        await Promise.all(req).then(_req=> {
+            _req.forEach((element,id) =>{
+                // TODO: Check if any problem asigning by id
+                sentences[id].conf.type = element.data.sentiment;
+            });
+            //console.log(_req[0].data);
+            //responses.push(_req);
+        });
+        //console.log(sentences);
+    }
+    dispatch({
+        type: 'FETCH_SENTIMENT',
+        payload: sentences
     });
-    console.log(sentences);
 };

@@ -44,8 +44,10 @@ def create_app():
     with app.app_context():
         from .resources.user        import user_blueprint
         from .resources             import notebook_blueprint
+        from .sentimet              import sentiment_blueprint
         app.register_blueprint(user_blueprint)
         app.register_blueprint(notebook_blueprint)
+        app.register_blueprint(sentiment_blueprint)
         
         print("--- App created ---")
         return app

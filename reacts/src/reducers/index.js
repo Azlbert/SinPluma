@@ -9,6 +9,7 @@ import genreReducer from './genreReducer';
 import themeReducer from './themeReducer';
 import authReducer from './authReducer';
 import pageReducer from './pageReducer';
+import sentimentReducer from './sentimentReducer';
 
 export default combineReducers({
     form: formReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
     genres: genreReducer,
     theme: themeReducer,
     page: pageReducer,
+    sentiments: sentimentReducer,
     auth: authReducer
 });

@@ -86,7 +86,7 @@ function UserTabs(props) {
         onChange={handleChange}
         aria-label="disabled tabs example"
       >
-        <LinkTab label="Publicaciones" {...a11yProps(0)} />
+        <LinkTab label="Obras" {...a11yProps(0)} />
         <LinkTab label="Leyendo" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
