@@ -14,8 +14,19 @@ class Notebook(Resource):
         if not notebook:
             return {'message':'Notebook not found'}, 404
         return notebook_schema.dump(notebook), 200
-    
 
+    @classmethod
+    def put(cls, id: int):
+        print('xD')
+        notebook = NotebookModel.find_by_id(id)
+        if not notebook:
+            return {'message':'Notebook not found'}, 404
+        
+        notebook_json = request.get_json()
+        notebook = notebook_schema.load(notebook_json,instance=notebook)
+        notebook.save_to_db()
+        return {"message": "Updated"}, 200
+    
     @classmethod
     def delete(cls, id: int):
         notebook = NotebookModel.find_by_id(id)

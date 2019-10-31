@@ -73,13 +73,101 @@ export const fetchGenre = id => async dispatch => {
     });
 };
 
+export const fetchGenres = () => async dispatch => {
+    const response = await api.get('/genres/');
+
+    dispatch({
+        type: 'FETCH_GENRES',
+        payload: response.data.genres
+    });
+};
+
+export const createWork = data => async (dispatch,getState) => {
+    try{
+        const myJSON = JSON.stringify({
+            title: data['title'],
+            resume: data['resume'],
+            user_id: getState().account.id,
+            // TODO: Change category to genre
+            genre_id: data['genre'],
+        });
+        console.log(myJSON);
+        const response = await api.post('/notebooks/', myJSON, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log(response);
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export const updateWork = data => async dispatch => {
+    try{
+        const myJSON = JSON.stringify({
+            title: data['title'],
+            resume: data['resume'],
+            user_id: 2,
+            genre_id: data['genre'],
+        });
+        console.log(myJSON);
+        const response = await api.put('/notebooks/'+data['notebook'], myJSON, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        dispatch(fetchWork(data['notebook']))
+        console.log(response);
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export const createPage = id => async dispatch => {
+    try{
+        const myJSON = JSON.stringify({
+            notebook_id: id,
+            title: "",
+            content: "",
+        });
+        console.log('Hi');
+        await api.post('/pages/', myJSON, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        dispatch(fetchWork(id))
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export const deletePage = (pageId,notebookId) => async dispatch => {
+    try{
+        await api.delete('/pages/'+pageId);
+        dispatch(fetchWork(notebookId))
+    } catch(error){
+        console.log(error);
+    };
+};
+
+export const deleteWork = (notebookId) => async dispatch => {
+    try{
+        await api.delete('/notebooks/'+notebookId);
+        dispatch(fetchWork(notebookId))
+    } catch(error){
+        console.log(error);
+    };
+};
+
 export const fetchUser = id => async dispatch => {
     const response = await api.get('/user/' + id);
     dispatch({
         type: 'FETCH_USER',
         payload: response.data
     });
-    console.log(response);
+    //console.log(response);
 };
 
 export const fetchWork = id => async dispatch => {
@@ -161,16 +249,12 @@ export const sentiment = sentences => async dispatch => {
             url = '/sentiment/?key='+element.key+'&sentence='+element.sentence.trim();
             req.push(api.get(url));
         });
-        let responses = []
         await Promise.all(req).then(_req=> {
             _req.forEach((element,id) =>{
                 // TODO: Check if any problem asigning by id
                 sentences[id].conf.type = element.data.sentiment;
             });
-            //console.log(_req[0].data);
-            //responses.push(_req);
         });
-        //console.log(sentences);
     }
     dispatch({
         type: 'FETCH_SENTIMENT',

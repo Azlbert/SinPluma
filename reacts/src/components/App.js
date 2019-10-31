@@ -6,8 +6,8 @@ import ThemeProvider  from '@material-ui/styles/ThemeProvider';
 
 import { BrowserRouter, Switch, Route/* , Link */ } from "react-router-dom";
 
-import requireAuth from './hoc/requiere_auth';
-import noRequireAuth from './hoc/no_require_auth';
+import requireAuth    from './hoc/requiere_auth';
+import noRequireAuth  from './hoc/no_require_auth';
 
 import { loadSession, getSession } from '../common/Session';
 
@@ -16,6 +16,7 @@ import Cards          from "./Pages/Cards";
 import LoginPage      from "./Pages/Login";
 import Profile        from "./Pages/Profile";
 import Work           from "./Pages/Work";
+import CreateWork     from "./Pages/CreateWork";
 import SignUp         from "./Pages/SignUp";
 import SignOut        from './SignOut'
 
@@ -38,6 +39,7 @@ const App = (props) => {
                     <Route path="/perfil/" component={requireAuth(ProfilePage)}/>
                     <Route path="/obra/:id" component={requireAuth(WorkPage)} />
                     <Route path="/obra/" component={requireAuth(WorkPage)} />
+                    <Route path="/crear/" component={requireAuth(CreateWorkPage)} />
                     <Route path="/signout/" component={requireAuth(SignOut)} />
                     <Route path="/registrar/" component={noRequireAuth(SignUp)} />
                     <Route component={NotFound} />
@@ -85,6 +87,14 @@ const WorkPage = (props) => {
     return (
         <Template>
             <Work id={id}/>
+        </Template>
+    );
+};
+
+const CreateWorkPage = (props) => {
+    return (
+        <Template>
+            <CreateWork/>
         </Template>
     );
 };

@@ -120,7 +120,7 @@ function Login(props) {
                     Sign in
                 </Typography>
                 <form className={classes.form} onSubmit={props.handleSubmit(onSubmit)}>
-                    <Field autoFocus name="email" component={renderEmail}/>
+                    <Field name="email" component={renderEmail}/>
                     <Field name="password" component={renderPassword}/>
                     {/* <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
