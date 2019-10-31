@@ -23,6 +23,7 @@ import { connect }          from 'react-redux';
 import {createWork}       from '../../actions'
 
 import { fetchGenres } from '../../actions';
+import routes from "../../common/Routes";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -186,7 +187,7 @@ function CreateWork(props) {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={() => props.history.push("/perfil/"+props.account.id)} color="primary" autoFocus>
+                <Button onClick={() => props.history.push(routes.profile+props.account.id)} color="primary" autoFocus>
                     Ir a al perfil.
                 </Button>
                 </DialogActions>

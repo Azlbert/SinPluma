@@ -4,6 +4,9 @@ export default (state = null, action) =>{
             state = action.payload;
             //return state;
             return state;
+        case 'CLEAR_PAGE':
+            state = null;
+            return state;
         default:
             return state;
     }

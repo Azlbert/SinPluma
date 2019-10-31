@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 
+import routes from "../../common/Routes";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {    fetchWork,
@@ -22,6 +23,7 @@ import {    fetchWork,
             deletePage,
             updateWork,
             fetchGenres,
+            clearStates,
             deleteWork as deleteWorkAction
         } from '../../actions';
 import useStyles from '../../common/Style';
@@ -69,7 +71,7 @@ function Pages(props) {
                     <Button
                     variant="contained"
                     size="small"
-                    onClick={() => props.history.push("/writer/"+row.page_id)}
+                    onClick={() => props.history.push(routes.writer+row.page_id)}
                     >
                         <Edit fontSize="small" style={{marginRight:'4px'}}/>
                         Editar
@@ -130,6 +132,7 @@ function Pages(props) {
 function Work(props) {
     const classes = useStyles.profile();
     React.useState(() => {
+        props.clearStates();
         props.fetchWork(props.id);
         props.fetchGenres();
         
@@ -334,7 +337,7 @@ function Work(props) {
             </Button>
             <Button onClick={() => {
                     props.deleteWorkAction(props.id);
-                    props.history.push("/perfil/"+props.work.user.user_id)
+                    props.history.push(routes.profile+props.work.user.user_id)
                 }}>
                 Eliminar
             </Button>
@@ -355,7 +358,8 @@ const mapDispatchToProps = {
     createPage: createPage,
     deletePage: deletePage,
     updateWork: updateWork,
-    deleteWorkAction: deleteWorkAction
+    deleteWorkAction: deleteWorkAction,
+    clearStates: clearStates
 };
 
 const reduxWork = reduxForm({

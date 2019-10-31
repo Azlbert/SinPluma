@@ -1,6 +1,7 @@
 // TODO: Move to action
 
 import api from "../common/Api";
+import routes from "../common/Routes";
 
 export const AUTHENTICATED = 'authenticated_user';
 export const UNAUTHENTICATED = 'unauthenticated_user';
@@ -25,7 +26,7 @@ export function startSession({email, password}, history) {
                 type: 'SET_ACCOUNT',
                 payload: parseJwt(response.data.access_token).user_claims
             });
-            history.push('/cards');
+            history.push(routes.cards);
         } catch(e){
             dispatch({
                 type: AUTHENTICATION_ERROR,

@@ -10,7 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchWorksLike } from '../../actions';
+import { fetchWorksLike, clearStates } from '../../actions';
 import useStyles from '../../common/Style';
 
 import WorkCard from '../Elements/WorkCard';
@@ -51,6 +51,7 @@ function ListCards(props) {
 };
 
 function Cards(props) {
+    React.useState(() => props.clearStates());
     const classes = useStyles.workCard();
     const works = Object.keys(props.works).length === 0 ? [] : props.works;
     return(
@@ -72,7 +73,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    fetchWorksLike: fetchWorksLike
+    fetchWorksLike: fetchWorksLike,
+    clearStates: clearStates
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Cards));

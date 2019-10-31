@@ -3,6 +3,7 @@ import { withRouter }       from 'react-router';
 import { Field,reduxForm }  from 'redux-form';
 import { connect }          from 'react-redux';
 import { startSession }     from "../../common/Session";
+import routes from "../../common/Routes";
 
 import Avatar           from '@material-ui/core/Avatar';
 import Button           from '@material-ui/core/Button';
@@ -60,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 function Login(props) {
     const classes = useStyles();
 
-    const goToSignUp = () => props.history.push('/registrar');
+    const goToSignUp = () => props.history.push(routes.register);
 
     // TODO: URGENT! Solve onSubmint async error
     const onSubmit = (formValues) => {

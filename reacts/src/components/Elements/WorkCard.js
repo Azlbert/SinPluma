@@ -10,13 +10,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
 
+import routes from "../../common/Routes";
 import useStyles from '../../common/Style';
 
 function WorkCard(props) {
     const classes = useStyles.workCard();
     if (typeof props.genres === 'undefined')
         return '';
-    const url = '/obra/' + props.work.notebook_id;
+    const url = routes.work + props.work.notebook_id;
     const sizing = {
         xs: typeof props.xs === 'undefined' ? 12 : props.xs,
         lg: typeof props.lg === 'undefined' ? 6 : props.lg,

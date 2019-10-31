@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import api from "../common/Api";
+import _        from 'lodash';
+import api      from "../common/Api";
 
 import {
     AUTHENTICATION_ERROR,
@@ -14,7 +14,7 @@ export const fetchWorks = () => async (dispatch, getState) => {
         .uniq()
         .forEach(genre_id => dispatch(fetchGenre(genre_id)))
         .value();
-}
+};
 
 export const fetchUserWorks = id => async (dispatch, getState) => {
     await dispatch(fetchUserWorksList(id));
@@ -24,7 +24,7 @@ export const fetchUserWorks = id => async (dispatch, getState) => {
         .uniq()
         .forEach(genre_id => dispatch(fetchGenre(genre_id)))
         .value();
-}
+};
 
 export const fetchWorksLike = query => async (dispatch, getState) => {
     await dispatch(fetchWorksListLike(query));
@@ -34,7 +34,7 @@ export const fetchWorksLike = query => async (dispatch, getState) => {
         .uniq()
         .forEach(genre_id => dispatch(fetchGenre(genre_id)))
         .value();
-}
+};
 
 const fetchWorksList = () =>  async dispatch => {
     const response = await api.get('/notebooks/');
@@ -180,7 +180,7 @@ export const fetchWork = id => async dispatch => {
         type: 'FETCH_WORK',
         payload: response.data
     });
-} 
+};
 
 export const registerUser = data => async dispatch => {
     let response=null;
@@ -203,13 +203,13 @@ export const registerUser = data => async dispatch => {
         if(response['status'] === 201){
             dispatch({ type: USER_CREATED });
             console.log('Entro!')
-        }
+        };
     } catch(error){
         dispatch({
             type: AUTHENTICATION_ERROR,
             payload: error.response.data
         });
-    }
+    };
 };
 
 
@@ -217,6 +217,20 @@ export function setTheme(theme) {
     return {
       type: 'SET_THEME',
       theme
+    };
+};
+
+export function clearStates() {
+    return function(dispatch) {
+        dispatch({
+            type: 'CLEAR_WORKS',
+        });
+        dispatch({
+            type: 'CLEAR_PAGE',
+        });
+        dispatch({
+            type: 'CLEAR_SENTIMENT',
+        });
     };
 };
 

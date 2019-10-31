@@ -3,7 +3,7 @@ import { Value } from 'slate';
 
 import React from 'react';
 import initialValueAsJson from './value.json';
-import { loadPage, savePage, sentiment } from '../../actions';
+import { loadPage, savePage, sentiment, clearStates } from '../../actions';
 import { connect } from 'react-redux';
 
 let n = 0;
@@ -52,8 +52,9 @@ class Editor extends React.Component {
     componentDidMount() {
         this.props.onRef(this);
     }
-
+    
     componentWillUnmount() {
+        this.props.clearStates();
         this.props.onRef(undefined);
     }
 
@@ -260,7 +261,8 @@ const mapStateToProps = (state,ownProps) => {
 const mapDispatchToProps = {
     loadPage: loadPage,
     savePage: savePage,
-    sentiment: sentiment
+    sentiment: sentiment,
+    clearStates: clearStates
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

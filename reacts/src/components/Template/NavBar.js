@@ -10,6 +10,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import BookIcon from '@material-ui/icons/Book';
 
+import routes from "../../common/Routes";
 import useStyles from '../../common/Style';
 
 function NavBar(props) {
@@ -59,27 +60,27 @@ const menuList = [
     {
         text: 'Buscar',
         icon: <SearchIcon />,
-        link: "/cards/"
+        link: routes.cards
     },
     {
         text: 'Perfil',
         icon: <AccountIcon />,
-        link: "/perfil/"
+        link: routes.profile
     },
     {
         text: 'Obra',
         icon: <BookIcon />,
-        link: "/obra/"
+        link: routes.work
     },
     {
         text: 'Editor',
         icon: <CreateIcon />,
-        link: "/writer/"
+        link: routes.writer
     },
     {
         text: 'Login',
         icon: <PowerIcon />,
-        link: "/signout/"
+        link: routes.signout
     },
 ];
 

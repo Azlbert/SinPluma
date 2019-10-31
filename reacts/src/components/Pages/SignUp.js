@@ -18,6 +18,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { withRouter }   from 'react-router';
 import { Field, reduxForm } from 'redux-form';
 import { connect }          from 'react-redux';
+import routes from "../../common/Routes";
 import {registerUser}       from '../../actions'
 
 function Copyright() {
@@ -59,7 +60,7 @@ function SignUp(props) {
     }
     const classes = useStyles();
 
-    const goToLogin = () => props.history.push('/login');
+    const goToLogin = () => props.history.push(routes.login);
 
     // TODO: URGENT! Solve onSubmint async error
     const onSubmit = (formValues) => {

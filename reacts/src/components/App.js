@@ -20,6 +20,8 @@ import CreateWork     from "./Pages/CreateWork";
 import SignUp         from "./Pages/SignUp";
 import SignOut        from './SignOut'
 
+import routes         from "../common/Routes";
+
 // TODO: Refactor routes
 
 const App = (props) => {
@@ -30,18 +32,18 @@ const App = (props) => {
             <BrowserRouter>
                 <Switch>
                     {/* TODO: Refactor route path */}
-                    <Route path="/" exact component={noRequireAuth(LoginPage)} />
-                    <Route path="/writer/:id" component={requireAuth(WriterPage)} />
-                    <Route path="/writer/" component={requireAuth(WriterPage)} />
-                    <Route path="/cards/" component={requireAuth(CardsPage)} />
-                    <Route path="/login/" component={noRequireAuth(LoginPage)} />
-                    <Route path="/perfil/:id" component={requireAuth(ProfilePage)} />
-                    <Route path="/perfil/" component={requireAuth(ProfilePage)}/>
-                    <Route path="/obra/:id" component={requireAuth(WorkPage)} />
-                    <Route path="/obra/" component={requireAuth(WorkPage)} />
-                    <Route path="/crear/" component={requireAuth(CreateWorkPage)} />
-                    <Route path="/signout/" component={requireAuth(SignOut)} />
-                    <Route path="/registrar/" component={noRequireAuth(SignUp)} />
+                    <Route path={routes.root} exact component={noRequireAuth(LoginPage)} />
+                    <Route path={routes.writer+":id"} component={requireAuth(WriterPage)} />
+                    <Route path={routes.writer} component={requireAuth(WriterPage)} />
+                    <Route path={routes.cards} component={requireAuth(CardsPage)} />
+                    <Route path={routes.login} component={noRequireAuth(LoginPage)} />
+                    <Route path={routes.profile+":id"} component={requireAuth(ProfilePage)} />
+                    <Route path={routes.profile} component={requireAuth(ProfilePage)}/>
+                    <Route path={routes.work+":id"}  component={requireAuth(WorkPage)} />
+                    <Route path={routes.work}  component={requireAuth(WorkPage)} />
+                    <Route path={routes.createWork} component={requireAuth(CreateWorkPage)} />
+                    <Route path={routes.signout} component={requireAuth(SignOut)} />
+                    <Route path={routes.signout} component={noRequireAuth(SignUp)} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
