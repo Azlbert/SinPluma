@@ -39,6 +39,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField        from '@material-ui/core/TextField';
 
+import DrawIfAuth from '../hoc/draw_if_auth';
+
 
 function Pages(props) {
     const [deletePage, setDeletePage] = React.useState(false);
@@ -68,6 +70,7 @@ function Pages(props) {
                     {row.title}
                 </TableCell>
                 <TableCell align="right" style={{padding:'5px'}}>
+                    <DrawIfAuth id={props.user.user_id}>
                     <Button
                     variant="contained"
                     size="small"
@@ -86,21 +89,24 @@ function Pages(props) {
                         }}>
                         <DeleteIcon fontSize="small" />
                     </IconButton>
+                    </DrawIfAuth>
                 </TableCell>
                 </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            /* className={classes.submit} */
-            onClick={() => props.createPage(props.id)}
-        >
-            Añadir pagina
-        </Button>
+        <DrawIfAuth id={props.user.user_id}>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                /* className={classes.submit} */
+                onClick={() => props.createPage(props.id)}
+            >
+                Añadir pagina
+            </Button>
+        </DrawIfAuth>
         <Dialog
             open={deletePage}
             onClose={closeDeletePage}
@@ -252,14 +258,16 @@ function Work(props) {
                 </Typography>
                 <br />
             </Paper>
-            <Button
-            variant="contained"
-            onClick={() => openEditWork()}
-            fullWidth
-            style={{marginTop:'20px'}}
-            >
-                Editar Obra
-            </Button>
+            <DrawIfAuth id={props.work.user.user_id}>
+                <Button
+                variant="contained"
+                onClick={() => openEditWork()}
+                fullWidth
+                style={{marginTop:'20px'}}
+                >
+                    Editar Obra
+                </Button>
+            </DrawIfAuth>
             
             </Grid>
             <Grid item xs={12} md={9} className={classes.info}>
@@ -278,6 +286,7 @@ function Work(props) {
                 <Pages 
                     rows={props.work.pages}
                     history={props.history}
+                    user={props.work.user}
                     id={props.id}
                     createPage={props.createPage}
                     deletePage={props.deletePage}

@@ -226,6 +226,9 @@ export function clearStates() {
             type: 'CLEAR_WORKS',
         });
         dispatch({
+            type: 'CLEAR_WORK',
+        });
+        dispatch({
             type: 'CLEAR_PAGE',
         });
         dispatch({
