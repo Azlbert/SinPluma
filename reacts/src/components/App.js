@@ -43,7 +43,7 @@ const App = (props) => {
                     <Route path={routes.work}  component={requireAuth(WorkPage)} />
                     <Route path={routes.createWork} component={requireAuth(CreateWorkPage)} />
                     <Route path={routes.signout} component={requireAuth(SignOut)} />
-                    <Route path={routes.signout} component={noRequireAuth(SignUp)} />
+                    <Route path={routes.register} component={noRequireAuth(SignUp)} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>

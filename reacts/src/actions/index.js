@@ -193,7 +193,7 @@ export const registerUser = data => async dispatch => {
             password_hash: data['password']
         });
         console.log(myJSON);
-        response = await api.post('register', myJSON, {
+        response = await api.post('/register', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
             }

@@ -7,6 +7,7 @@ from flask_jwt_extended     import (
 from werkzeug.security      import safe_str_cmp
 from app.models.user        import User as UserModel, LoginSchema
 import bcrypt
+import app
 
 user_schema = LoginSchema()
 

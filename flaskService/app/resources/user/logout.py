@@ -5,7 +5,7 @@ from flask_jwt_extended     import (
     jwt_required,
     get_raw_jwt
 )
-from app.blacklist          import BLACKLIST
+from app import rc, app
 
 class UserLogout(Resource):
     @classmethod
@@ -13,5 +13,5 @@ class UserLogout(Resource):
     def post(cls):
         jti = get_raw_jwt()["jti"]  # jti is "JWT ID", a unique identifier for a JWT.
         user_id = get_jwt_identity()
-        BLACKLIST.add(jti)
+        rc.set(jti,jti,app.config['ACCESS_EXPIRES'] * 1.2)
         return {"message": "The user {} has loged out".format(user_id)}, 200

@@ -42,6 +42,14 @@ services:
             - backend
         command: gunicorn -b 0.0.0.0:80 --reload wsgi:app
         restart: on-failure
+    
+    redis:
+        image: "redis:alpine3.10"
+        volumes:
+            - ./redis/data:/data
+        networks:
+            - backend
+        restart: on-failure
 
     inno_router:
         container_name: inno_router

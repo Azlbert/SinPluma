@@ -14,7 +14,6 @@ import { withRouter } from 'react-router';
 
 function AppBar(props){
     const account = props.account;
-    console.log(props.location);
     return (
         <MUIAppBar className={props.className}>
             <Toolbar>
