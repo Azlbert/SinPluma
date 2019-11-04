@@ -32,11 +32,11 @@ import InputLabel       from '@material-ui/core/InputLabel';
 import MenuItem         from '@material-ui/core/MenuItem';
 import FormControl      from '@material-ui/core/FormControl';
 import Select           from '@material-ui/core/Select';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
+import Dialog           from '@material-ui/core/Dialog';
+import DialogActions    from '@material-ui/core/DialogActions';
+import DialogContent    from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogTitle      from '@material-ui/core/DialogTitle';
 import TextField        from '@material-ui/core/TextField';
 
 import DrawIfAuth from '../hoc/draw_if_auth';
@@ -70,6 +70,14 @@ function Pages(props) {
                     {row.title}
                 </TableCell>
                 <TableCell align="right" style={{padding:'5px'}}>
+                    <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => props.history.push(routes.page+row.page_id)}
+                    style={{marginRight:'14px'}}
+                    >
+                        Leer
+                    </Button>
                     <DrawIfAuth id={props.user.user_id}>
                     <Button
                     variant="contained"

@@ -15,6 +15,7 @@ import Writer         from "./Pages/Writer";
 import Cards          from "./Pages/Cards";
 import LoginPage      from "./Pages/Login";
 import Profile        from "./Pages/Profile";
+import Page           from "./Pages/Page";
 import Work           from "./Pages/Work";
 import CreateWork     from "./Pages/CreateWork";
 import SignUp         from "./Pages/SignUp";
@@ -34,7 +35,9 @@ const App = (props) => {
                     {/* TODO: Refactor route path */}
                     <Route path={routes.root} exact component={noRequireAuth(LoginPage)} />
                     <Route path={routes.writer+":id"} component={requireAuth(WriterPage)} />
+                    <Route path={routes.page+":id"} component={requireAuth(PagePage)} />
                     <Route path={routes.writer} component={requireAuth(WriterPage)} />
+                    <Route path={routes.page} component={requireAuth(WriterPage)} />
                     <Route path={routes.cards} component={requireAuth(CardsPage)} />
                     <Route path={routes.login} component={noRequireAuth(LoginPage)} />
                     <Route path={routes.profile+":id"} component={requireAuth(ProfilePage)} />
@@ -61,6 +64,16 @@ const WriterPage = (props) => {
     return (
         <Template>
             <Writer id={id}/>
+        </Template>
+    );
+};
+
+const PagePage = (props) => {
+    let { params: { id } } = props.match;
+    if(!id) id = 24;
+    return (
+        <Template>
+            <Page id={id}/>
         </Template>
     );
 };

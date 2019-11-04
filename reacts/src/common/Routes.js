@@ -1,7 +1,8 @@
 export default {
     root : "/",
     profile : "/perfil/",
-    writer : "/writer/",
+    writer : "/editor/",
+    page : "/pagina/",
     cards : "/cards/",
     login : "/login/",
     work : "/obra/",

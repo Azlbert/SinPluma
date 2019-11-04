@@ -70,6 +70,7 @@ class Editor extends React.Component {
     }
 
     render() {
+        const readOnly = typeof this.props.readOnly === 'undefined' ? this.isAnalizing() : this.props.readOnly;
         return (
             <SlateEditor
                 ref             ={this.ref}
@@ -85,7 +86,7 @@ class Editor extends React.Component {
                 placeholder ="Erase una vez..."
                 className   ={this.props.className}
                 style       = {{margin:'0px'}}
-                readOnly    = {this.isAnalizing()}
+                readOnly    = {readOnly}
                 spellCheck
             />
         );
