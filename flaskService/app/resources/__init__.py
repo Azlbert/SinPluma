@@ -4,6 +4,7 @@ from .genre                 import Genre, Genres
 from .notebook              import NotebookPage, Notebook, Notebooks
 from .page                  import Page, Pages
 from .search                import SearchNotebooks
+from .reading               import Reading, PostReading
 
 notebook_blueprint = Blueprint('notebook', __name__)
 api = Api(notebook_blueprint)
@@ -15,4 +16,6 @@ api.add_resource(Notebook, '/notebooks/<int:id>')
 api.add_resource(Notebooks, '/notebooks/')
 api.add_resource(Page,  '/pages/<int:id>')
 api.add_resource(Pages, '/pages/')
+api.add_resource(Reading, '/readings/<int:id>')
+api.add_resource(PostReading, '/readings')
 api.add_resource(SearchNotebooks, '/search/notebooks/<string:query>')

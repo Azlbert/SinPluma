@@ -1,9 +1,15 @@
+from flask                  import request
 from flask_restful          import Resource
 from app.models.user        import User as UserModel, UserSchema
 from app.models.notebook    import Notebook as NotebookModel, NotebookSchema
+from app.models.reading     import Reading as ReadingModel, ReadingSchema
+from flask_jwt_extended     import (
+    jwt_required
+)
 
 user_schema = UserSchema()
 notebook_list_schema = NotebookSchema(many=True)
+reading_list_schema = ReadingSchema(many=True)
 
 class User(Resource):
     @classmethod
@@ -20,3 +26,9 @@ class UserNotebooks(Resource):
         if not user:
             return {'message':'User not found'}, 200
         return {"notebooks": notebook_list_schema.dump(NotebookModel.find_all_by_user(id))}, 200
+
+class UserReadings(Resource):
+    @classmethod
+    def get(cls, id:int):
+        reading_list = reading_list_schema.dump(ReadingModel.find_user_list(id))
+        return {"readings": reading_list}, 200
