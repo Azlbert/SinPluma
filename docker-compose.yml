@@ -42,6 +42,19 @@ services:
             - backend
         command: gunicorn -b 0.0.0.0:80 --reload wsgi:app
         restart: on-failure
+
+    linguistics:
+        build: ./linguistics
+        working_dir: /flask
+        environment: 
+            - PYTHONUNBUFFERED=TRUE
+            - FLASK_ENV=DEVELOPMENT
+        volumes:
+            - ./linguistics:/flask
+        networks:
+            - backend
+        command: gunicorn -b 0.0.0.0:80 --reload wsgi:app
+        restart: on-failure
     
     redis:
         image: "redis:alpine3.10"

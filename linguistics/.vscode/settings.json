@@ -1,0 +1,12 @@
+{
+    "python.linting.enabled": true,
+    "python.pythonPath": "/home/alberto/Documents/TestProject/flaskService/env/bin/python",
+    "files.exclude": {
+        "**/__pycache__": true,
+        /* ".dockerignore": true,
+        "env": true,
+        "__init__.py": true, */
+        //"app/__init__.py": true,
+    },
+    "python.linting.pylintEnabled": true,
+}

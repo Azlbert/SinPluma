@@ -9,6 +9,10 @@
 			"path": "flaskService"
 		},
 		{
+			"name": "linguistics service",
+			"path": "linguistics"
+		},
+		{
 			"name": "react",
 			"path": "reacts"
 		},
