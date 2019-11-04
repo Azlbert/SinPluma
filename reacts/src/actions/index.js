@@ -263,7 +263,7 @@ export const sentiment = sentences => async dispatch => {
         let req = [];
         let url = '';
         sentences.forEach(element => {
-            url = '/sentiment/?key='+element.key+'&sentence='+element.sentence.trim();
+            url = '/lin/sentiment?key='+element.key+'&sentence='+element.sentence.trim();
             req.push(api.get(url));
         });
         await Promise.all(req).then(_req=> {

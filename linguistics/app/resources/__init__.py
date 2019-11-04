@@ -1,8 +1,9 @@
 from flask                  import Blueprint
 from flask_restful          import Api
-from .test                  import Testing
+from .sentiment             import SentimentAnalysis, X
 
-test_blueprint = Blueprint('test', __name__)
-api = Api(test_blueprint)
+analysis_blueprint = Blueprint('sentiment_analysis', __name__)
+api = Api(analysis_blueprint)
 
-api.add_resource(Testing, '/')
+api.add_resource(SentimentAnalysis, '/sentiment')
+api.add_resource(X, '/')
