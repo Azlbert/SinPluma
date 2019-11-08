@@ -2,7 +2,9 @@ from flask                  import request
 from flask_restful          import Resource
 from app.models.reading     import Reading as ReadingModel, ReadingSchema
 from flask_jwt_extended     import (
-    jwt_required
+    jwt_required,
+    get_raw_jwt,
+    get_jwt_identity
 )
 
 reading_schema = ReadingSchema()
@@ -44,9 +46,11 @@ class PostReading(Resource):
     @jwt_required
     def post(cls):
         reading_json = request.get_json()
-        if ReadingModel.exists(reading_json["user"],reading_json["notebook"]):
+        user_id = get_jwt_identity()
+        if ReadingModel.exists(user_id,reading_json["notebook"]):
             return {'message':'Reading exists'}, 400
 
+        reading_json['user'] = user_id
         reading = reading_schema.load(reading_json)
         
         reading.save_to_db()

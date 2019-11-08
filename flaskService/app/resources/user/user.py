@@ -2,7 +2,7 @@ from flask                  import request
 from flask_restful          import Resource
 from app.models.user        import User as UserModel, UserSchema
 from app.models.notebook    import Notebook as NotebookModel, NotebookSchema
-from app.models.reading     import Reading as ReadingModel, ReadingSchema
+from app.models.reading     import Reading as ReadingModel, ReadingSchema, ReadingNotebookSchema
 from flask_jwt_extended     import (
     jwt_required
 )
@@ -10,6 +10,7 @@ from flask_jwt_extended     import (
 user_schema = UserSchema()
 notebook_list_schema = NotebookSchema(many=True)
 reading_list_schema = ReadingSchema(many=True)
+reading_notebook_list_schema = ReadingNotebookSchema(many=True)
 
 class User(Resource):
     @classmethod
@@ -30,5 +31,9 @@ class UserNotebooks(Resource):
 class UserReadings(Resource):
     @classmethod
     def get(cls, id:int):
-        reading_list = reading_list_schema.dump(ReadingModel.find_user_list(id))
-        return {"readings": reading_list}, 200
+        user = UserModel.find_by_id(id)
+        if not user:
+            return {'message':'User not found'}, 200
+        #reading_list = reading_list_schema.dump(ReadingModel.find_user_list(id, include_notebook_info=True))
+        reading_list = ReadingModel.find_user_list(id, include_notebook_info=True)
+        return {"readings": reading_notebook_list_schema.dump(reading_list)}, 200

@@ -17,7 +17,6 @@ class Notebook(Resource):
 
     @classmethod
     def put(cls, id: int):
-        print('xD')
         notebook = NotebookModel.find_by_id(id)
         if not notebook:
             return {'message':'Notebook not found'}, 404

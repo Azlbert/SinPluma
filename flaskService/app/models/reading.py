@@ -2,8 +2,9 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.sql import func
-from .notebook import Notebook
+from .notebook import Notebook, NotebookSchema
 from app import db, ma
+from marshmallow import fields
 
 class Reading(db.Model):
     __tablename__ = 'reading'
@@ -24,7 +25,10 @@ class Reading(db.Model):
         return cls.query.filter_by(reading_id=id).first()
 
     @classmethod
-    def find_user_list(cls, id : int):
+    def find_user_list(cls, id : int, include_notebook_info: bool=False):
+        if include_notebook_info:
+            print('Entered')
+            return cls.query.join(Notebook, Reading.notebook_id==Notebook.notebook_id).filter(Reading.user_id==id).all()
         return cls.query.filter_by(user_id=id).all()
     
     @classmethod
@@ -42,3 +46,7 @@ class Reading(db.Model):
 class ReadingSchema(ma.ModelSchema):
     class Meta:
         model = Reading
+
+class ReadingNotebookSchema(ma.ModelSchema):
+    reading = fields.Nested(ReadingSchema)
+    notebook = fields.Nested(NotebookSchema)

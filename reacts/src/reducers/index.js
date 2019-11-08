@@ -9,6 +9,8 @@ import genreReducer from './genreReducer';
 import themeReducer from './themeReducer';
 import authReducer from './authReducer';
 import pageReducer from './pageReducer';
+import readingsReducer from './readingsReducer';
+import saveReadingReducer from './saveReadingReducer';
 import sentimentReducer from './sentimentReducer';
 
 export default combineReducers({
@@ -21,6 +23,8 @@ export default combineReducers({
     genres: genreReducer,
     theme: themeReducer,
     page: pageReducer,
+    readings: readingsReducer,
+    saveReading: saveReadingReducer,
     sentiments: sentimentReducer,
     auth: authReducer
 });

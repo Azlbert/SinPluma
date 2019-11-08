@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Field,reduxForm }  from 'redux-form';
 
 import Table from '@material-ui/core/Table';
@@ -24,9 +24,13 @@ import {    fetchWork,
             updateWork,
             fetchGenres,
             clearStates,
-            deleteWork as deleteWorkAction
+            deleteWork as deleteWorkAction,
+            fetchExactReading,
+            deleteReading,
+            saveReading
         } from '../../actions';
 import useStyles from '../../common/Style';
+import { getSession } from '../../common/Session';
 
 import InputLabel       from '@material-ui/core/InputLabel';
 import MenuItem         from '@material-ui/core/MenuItem';
@@ -40,6 +44,7 @@ import DialogTitle      from '@material-ui/core/DialogTitle';
 import TextField        from '@material-ui/core/TextField';
 
 import DrawIfAuth from '../hoc/draw_if_auth';
+import DrawIfNotAuth from '../hoc/draw_if_not_auth';
 
 
 function Pages(props) {
@@ -149,14 +154,14 @@ function Work(props) {
         props.clearStates();
         props.fetchWork(props.id);
         props.fetchGenres();
-        
+        props.fetchExactReading();
     });
     
     const [editWork, setEditWork] = React.useState(false);
     
     const openEditWork = () => {
 //        console.log(props.work)
-    props.initialize({genre:props.work.genre_id,title:props.work.title,resume:props.work.resume})
+    props.initialize({genre:props.work.genre_id,title:props.work.title,resume:props.work.resume});
     setEditWork(true);
     };
 
@@ -181,19 +186,22 @@ function Work(props) {
         closeEditWork();
     };
 
-    const [values, setValues] = React.useState({
+    const [setValues] = React.useState({
         name: "Terror",
     });
 
     const handleChange = event => {
         setValues(() => ({
-        name: event.target.value,
+            name: event.target.value,
         }));
     };
 
     if(Object.keys(props.work).length === 0){
         return '';
     }
+
+    props.fetchExactReading(getSession().id,props.work.notebook_id);
+    
 
     const renderTitle = ({input}) => {
         return(<TextField
@@ -276,6 +284,24 @@ function Work(props) {
                     Editar Obra
                 </Button>
             </DrawIfAuth>
+
+            <DrawIfNotAuth id={props.work.user.user_id}>
+                <Button
+                variant="contained"
+                onClick={() => {
+                    if(props.savedReading){
+                        props.deleteReading(props.work.notebook_id)
+                    }
+                    else {
+                        props.saveReadingDispatch(props.work.notebook_id)
+                    }
+                }}
+                fullWidth
+                style={{marginTop:'20px'}}
+                >
+                    {props.savedReading ? 'Dejar de seguir' : 'Seguir'}
+                </Button>
+            </DrawIfNotAuth>
             
             </Grid>
             <Grid item xs={12} md={9} className={classes.info}>
@@ -367,6 +393,7 @@ function Work(props) {
 const mapStateToProps = state => ({
     work: state.work,
     genres: state.genres,
+    savedReading: state.saveReading
 });
 
 const mapDispatchToProps = {
@@ -376,7 +403,10 @@ const mapDispatchToProps = {
     deletePage: deletePage,
     updateWork: updateWork,
     deleteWorkAction: deleteWorkAction,
-    clearStates: clearStates
+    clearStates: clearStates,
+    fetchExactReading: fetchExactReading,
+    deleteReading: deleteReading,
+    saveReadingDispatch: saveReading
 };
 
 const reduxWork = reduxForm({

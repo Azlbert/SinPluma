@@ -1,5 +1,6 @@
 import _        from 'lodash';
 import api      from "../common/Api";
+import {getSession}      from "../common/Session";
 
 import {
     AUTHENTICATION_ERROR,
@@ -45,9 +46,29 @@ const fetchWorksList = () =>  async dispatch => {
     });
 };
 
+export const fetchUserReadings = id => async (dispatch, getState) => {
+    await dispatch(fetchReadigsList(id));
+    
+    _.chain(getState().works)
+        .map('genre_id')
+        .uniq()
+        .forEach(genre_id => dispatch(fetchGenre(genre_id)))
+        .value();
+};
+
+const fetchReadigsList = user_id =>  async dispatch => {
+    const response = await api.get('/user/' + user_id + '/readings');
+    console.log(response.data);
+    
+    dispatch({
+        type: 'FETCH_READINGS',
+        payload: response.data.readings
+    });
+};
+
 const fetchUserWorksList = id => async dispatch => {
     const response = await api.get('/user/' + id +'/notebooks');
-    console.log(response);
+    console.log(response.data);
     
     dispatch({
         type: 'FETCH_WORKS',
@@ -88,16 +109,13 @@ export const createWork = data => async (dispatch,getState) => {
             title: data['title'],
             resume: data['resume'],
             user_id: getState().account.id,
-            // TODO: Change category to genre
             genre_id: data['genre'],
         });
-        console.log(myJSON);
         const response = await api.post('/notebooks/', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
             }
         });
-        console.log(response);
     } catch(error){
         console.log(error);
     };
@@ -131,7 +149,6 @@ export const createPage = id => async dispatch => {
             title: "",
             content: "",
         });
-        console.log('Hi');
         await api.post('/pages/', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
@@ -182,27 +199,70 @@ export const fetchWork = id => async dispatch => {
     });
 };
 
+export const fetchExactReading = (userId, workId) => async dispatch => {
+    let response = await api.get('/readings?user=' + userId + '&notebook='+workId);
+    console.log(response);
+    dispatch({
+        type: "SAVE_READING",
+        payload: response.data
+    });
+}
+
+export const saveReading = notebook => async dispatch => {
+    let response=null;
+    try{
+        const myJSON = JSON.stringify({ notebook });
+        response = await api.post('/readings', myJSON, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        dispatch(fetchExactReading(getSession().id,notebook));
+    } catch(error){
+        /* dispatch({
+            type: AUTHENTICATION_ERROR,
+            payload: error.response.data
+        }); */
+        console.log(error.response.data);
+    };
+};
+
+export const deleteReading = () => async (dispatch,getState) => {
+    let response=null;
+    try{
+        response = await api.delete('/readings/' + getState().saveReading.data.reading_id, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
+            }
+        });
+        dispatch({
+            type: 'CLEAR_SAVE_READING',
+        });
+    } catch(error){
+        console.log(error.response.data);
+    };
+};
+
 export const registerUser = data => async dispatch => {
     let response=null;
     try{
         const myJSON = JSON.stringify({
-            first_name: data['firstname'],
-            last_name: data['lastname'],
-            user_name: data['username'],
-            email: data['email'],
-            password_hash: data['password']
+            first_name:     data['firstname'],
+            last_name:      data['lastname'],
+            user_name:      data['username'],
+            email:          data['email'],
+            password_hash:  data['password']
         });
-        console.log(myJSON);
         response = await api.post('/register', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
             }
         });
-        console.log(response);
         
         if(response['status'] === 201){
             dispatch({ type: USER_CREATED });
-            console.log('Entro!')
         };
     } catch(error){
         dispatch({
@@ -224,6 +284,12 @@ export function clearStates() {
     return function(dispatch) {
         dispatch({
             type: 'CLEAR_WORKS',
+        });
+        dispatch({
+            type: 'CLEAR_READINGS',
+        });
+        dispatch({
+            type: 'CLEAR_SAVE_READING',
         });
         dispatch({
             type: 'CLEAR_WORK',

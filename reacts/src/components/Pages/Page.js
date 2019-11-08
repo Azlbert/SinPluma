@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -11,7 +10,6 @@ import { loadPage, savePage } from '../../actions';
 import WriterEditor from './Editor';
 
 function Writer(props) {
-    let child;
     useState(() => {
         props.loadPage(props.id);
     });
@@ -29,7 +27,7 @@ function Writer(props) {
                 </Typography>
                 <Paper>
                     {/* <Write page={props.page} save={props.savePage} id={props.id}/> */}
-                    <WriterEditor className={classes.input} id={props.id} readOnly={true} onRef={ref => (child = ref)}/>
+                    <WriterEditor className={classes.input} id={props.id} readOnly={true}/>
                 </Paper>
             </Grid>
         </Grid>

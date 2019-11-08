@@ -1,9 +1,7 @@
-import React from 'react';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 const DrawIfAuth = props => {
-    if(props.myAccount.id != props.id)  return '';
+    if(props.myAccount.id !== props.id)  return '';
     return props.children;
 }
 

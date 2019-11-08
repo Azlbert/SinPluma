@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchUser, fetchUserWorks } from '../../actions';
+import { fetchUser, fetchUserWorks, fetchUserReadings } from '../../actions';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -18,9 +18,15 @@ import useStyles from '../../common/Style';
 // TODO: Refactor Profile
 // TODO: Correct resizing
 
-function ListCards(props) {
+function ListWorks(props) {
   return props.cards.map((card) => 
       <WorkCard key={card.notebook_id} work={card} lg={12} xl={12}/>
+  );
+};
+
+function ListReadings(props) {
+  return props.readings.map((readings) => 
+      <WorkCard key={readings.notebook.notebook_id} work={readings.notebook} lg={12} xl={12}/>
   );
 };
 
@@ -79,24 +85,26 @@ function UserTabs(props) {
   console.log(works); */
   return (
     <Paper square>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="disabled tabs example"
-      >
-        <LinkTab label="Obras" {...a11yProps(0)} />
-        <LinkTab label="Leyendo" {...a11yProps(1)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
+        <Tabs
+            value={value}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChange}
+            aria-label="disabled tabs example"
+        >
+            <LinkTab label="Obras" {...a11yProps(0)} />
+            <LinkTab label="Leyendo" {...a11yProps(1)} />
+        </Tabs>
+        <TabPanel value={value} index={0}>
         <Grid container spacing={4}>
-                <ListCards cards={props.works} />
+            <ListWorks cards={props.works} />
         </Grid>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Page Two
-      </TabPanel>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+        <Grid container spacing={4}>
+            <ListReadings readings={props.readings} />
+        </Grid>
+        </TabPanel>
     </Paper>
   );
 }
@@ -106,18 +114,20 @@ function Profile(props) {
     const classes = useStyles.profile();
     useState(() => {
         props.fetchUser(props.id);
+        props.fetchUserReadings(props.id);
         props.fetchUserWorks(props.id);
     });
-    let name, userName, userCreated, works;
+    let name, userName, userCreated, works, readings;
     try{
         name = props.user.last_name + " " + props.user.first_name;
         userName = props.user.user_name;
         userCreated = props.user.user_created.substring(0, 10);
         works = Array.isArray(props.works) ? props.works : [];
+        readings = Array.isArray(props.readings) ? props.readings : [];
     }catch(_){
         return '';
     }
-    console.log(works);
+    
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={3}>
@@ -136,7 +146,7 @@ function Profile(props) {
             </Paper>
             </Grid>
             <Grid item xs={12} md={9} className={classes.info}>
-                <UserTabs works={works}/>
+                <UserTabs works={works} readings={readings}/>
             </Grid>
         </Grid>
     );
@@ -145,11 +155,13 @@ function Profile(props) {
 const mapStateToProps = (state) => ({
     user: state.user,
     works: state.works,
+    readings: state.readings
 });
 
 const mapDispatchToProps = {
     fetchUser: fetchUser,
-    fetchUserWorks: fetchUserWorks
+    fetchUserWorks: fetchUserWorks,
+    fetchUserReadings: fetchUserReadings
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Profile));
