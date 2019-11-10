@@ -46,7 +46,7 @@ function WorkCard(props) {
                                 {props.work.resume}
                             </Typography>
                             <Typography variant="subtitle1" color="primary">
-                                Continue reading...
+                                Leer...
                             </Typography>
                         </CardContent>
                     </div>
