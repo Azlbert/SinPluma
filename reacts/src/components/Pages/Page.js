@@ -27,7 +27,7 @@ function Writer(props) {
                 </Typography>
                 <Paper>
                     {/* <Write page={props.page} save={props.savePage} id={props.id}/> */}
-                    <WriterEditor className={classes.input} id={props.id} readOnly={true}/>
+                    <WriterEditor className={classes.input} id={props.id} readOnly={true} onRef={ref => null}/>
                 </Paper>
             </Grid>
         </Grid>
