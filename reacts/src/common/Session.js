@@ -21,6 +21,7 @@ export function startSession({email, password}, history) {
                 }
             });
             localStorage.setItem("accessToken", response.data.access_token);
+            localStorage.setItem("refreshToken", response.data.refresh_token);
             dispatch({ type: AUTHENTICATED });
             dispatch({
                 type: 'SET_ACCOUNT',

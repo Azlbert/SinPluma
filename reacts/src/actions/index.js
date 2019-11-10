@@ -1,6 +1,6 @@
-import _        from 'lodash';
-import api      from "../common/Api";
-import {getSession}      from "../common/Session";
+import _            from 'lodash';
+import api          from "../common/Api";
+import {getSession} from "../common/Session";
 
 import {
     AUTHENTICATION_ERROR,
@@ -111,7 +111,7 @@ export const createWork = data => async (dispatch,getState) => {
             user_id: getState().account.id,
             genre_id: data['genre'],
         });
-        const response = await api.post('/notebooks/', myJSON, {
+        await api.post('/notebooks/', myJSON, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -200,8 +200,7 @@ export const fetchWork = id => async dispatch => {
 };
 
 export const fetchExactReading = (userId, workId) => async dispatch => {
-    let response = await api.get('/readings?user=' + userId + '&notebook='+workId);
-    console.log(response);
+    let response = await api.get('/readings?user=' + userId + '&notebook=' + workId);
     dispatch({
         type: "SAVE_READING",
         payload: response.data
@@ -209,10 +208,9 @@ export const fetchExactReading = (userId, workId) => async dispatch => {
 }
 
 export const saveReading = notebook => async dispatch => {
-    let response=null;
     try{
         const myJSON = JSON.stringify({ notebook });
-        response = await api.post('/readings', myJSON, {
+        await api.post('/readings', myJSON, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
                 'Content-Type': 'application/json',
@@ -230,9 +228,8 @@ export const saveReading = notebook => async dispatch => {
 };
 
 export const deleteReading = () => async (dispatch,getState) => {
-    let response=null;
     try{
-        response = await api.delete('/readings/' + getState().saveReading.data.reading_id, {
+        await api.delete('/readings/' + getState().saveReading.data.reading_id, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
             }
