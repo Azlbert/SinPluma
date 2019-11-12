@@ -45,6 +45,7 @@ class Notebook(db.Model):
 class NotebookSchema(ma.ModelSchema):
     class Meta:
         model = Notebook
+        load_only = ("genre","user")
         include_fk = True
     
     @validates("title")

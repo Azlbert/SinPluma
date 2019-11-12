@@ -27,7 +27,6 @@ class Reading(db.Model):
     @classmethod
     def find_user_list(cls, id : int, include_notebook_info: bool=False):
         if include_notebook_info:
-            print('Entered')
             return cls.query.join(Notebook, Reading.notebook_id==Notebook.notebook_id).filter(Reading.user_id==id).all()
         return cls.query.filter_by(user_id=id).all()
     
@@ -46,7 +45,9 @@ class Reading(db.Model):
 class ReadingSchema(ma.ModelSchema):
     class Meta:
         model = Reading
+        exclude = ("user","notebook")
+        include_fk = True
 
 class ReadingNotebookSchema(ma.ModelSchema):
-    reading = fields.Nested(ReadingSchema)
+    #reading = fields.Nested(ReadingSchema)
     notebook = fields.Nested(NotebookSchema)

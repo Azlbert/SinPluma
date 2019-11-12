@@ -47,10 +47,10 @@ class PostReading(Resource):
     def post(cls):
         reading_json = request.get_json()
         user_id = get_jwt_identity()
-        if ReadingModel.exists(user_id,reading_json["notebook"]):
+        if ReadingModel.exists(user_id,reading_json["notebook_id"]):
             return {'message':'Reading exists'}, 400
 
-        reading_json['user'] = user_id
+        reading_json['user_id'] = user_id
         reading = reading_schema.load(reading_json)
         
         reading.save_to_db()

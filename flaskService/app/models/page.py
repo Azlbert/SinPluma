@@ -51,6 +51,7 @@ class PageSchema(ma.ModelSchema):
         model = Page
         dump_only = ("position",)
         load_only = ("content",)
+        exclude = ("notebook",)
         include_fk = True
     
     @validates("position")
@@ -66,5 +67,4 @@ class PageSchema(ma.ModelSchema):
 class PageEditorSchema(ma.ModelSchema):
     class Meta:
         model = Page
-        fields = ("content","title",)
-        include_fk = True
+        fields = ("content","title","notebook_id")

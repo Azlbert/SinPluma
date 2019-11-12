@@ -103,7 +103,7 @@ export const fetchGenres = () => async dispatch => {
     });
 };
 
-export const createWork = data => async (dispatch,getState) => {
+export const createWork = data => async (dispatch, getState) => {
     try{
         const myJSON = JSON.stringify({
             title: data['title'],
@@ -121,12 +121,12 @@ export const createWork = data => async (dispatch,getState) => {
     };
 };
 
-export const updateWork = data => async dispatch => {
+export const updateWork = data => async (dispatch, getState) => {
     try{
         const myJSON = JSON.stringify({
             title: data['title'],
             resume: data['resume'],
-            user_id: 2,
+            user_id: getState().account.id,
             genre_id: data['genre'],
         });
         console.log(myJSON);
@@ -160,7 +160,7 @@ export const createPage = id => async dispatch => {
     };
 };
 
-export const deletePage = (pageId,notebookId) => async dispatch => {
+export const deletePage = (pageId, notebookId) => async dispatch => {
     try{
         await api.delete('/pages/'+pageId);
         dispatch(fetchWork(notebookId))
@@ -169,7 +169,7 @@ export const deletePage = (pageId,notebookId) => async dispatch => {
     };
 };
 
-export const deleteWork = (notebookId) => async dispatch => {
+export const deleteWork = notebookId => async dispatch => {
     try{
         await api.delete('/notebooks/'+notebookId);
         dispatch(fetchWork(notebookId))
@@ -189,9 +189,10 @@ export const fetchUser = id => async dispatch => {
 
 export const fetchWork = id => async dispatch => {
     const response = await api.get('/notebooks/' + id);
-    response.data.user = (await api.get('/user/' + response.data.user)).data;
-    response.data.genre = (await api.get('/genres/' + response.data.genre)).data;
+    response.data.user = (await api.get('/user/' + response.data.user_id)).data;
+    response.data.genre = (await api.get('/genres/' + response.data.genre_id)).data;
     response.data.pages = (await api.get('/notebooks/' + id + '/pages/')).data;
+
 
     dispatch({
         type: 'FETCH_WORK',
@@ -227,7 +228,7 @@ export const saveReading = notebook => async dispatch => {
     };
 };
 
-export const deleteReading = () => async (dispatch,getState) => {
+export const deleteReading = () => async (dispatch, getState) => {
     try{
         await api.delete('/readings/' + getState().saveReading.data.reading_id, {
             headers: {
