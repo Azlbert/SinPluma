@@ -5,12 +5,14 @@ from .register              import UserRegister
 from .login                 import UserLogin
 from .logout                import UserLogout
 from .token_refresh         import TokenRefresh
+from .user_image            import Image
 
 user_blueprint = Blueprint('user', __name__)
 api = Api(user_blueprint)
 
 api.add_resource(UserNotebooks, '/user/<int:id>/notebooks')
 api.add_resource(UserReadings, '/user/<int:id>/readings')
+api.add_resource(Image, '/user/<int:id>/image')
 api.add_resource(User, '/user/<int:id>')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserLogin, '/login')

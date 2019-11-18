@@ -4,16 +4,18 @@ from flask_sqlalchemy       import SQLAlchemy
 from flask_jwt_extended     import JWTManager
 from flask_marshmallow      import Marshmallow
 from flask_redis            import FlaskRedis
+from flask_minio            import Minio
 from marshmallow            import ValidationError
 from .blacklist             import BLACKLIST
 
 app = None
-db = SQLAlchemy()
-ma = Marshmallow()
-rc = FlaskRedis()
+db  = SQLAlchemy()
+ma  = Marshmallow()
+rc  = FlaskRedis()
+mio = None
 
 def create_app():
-    global app
+    global app, mio
     print('--- Creating app ---')
     """Construct the core application."""
     app = Flask(__name__, instance_relative_config=True)
@@ -27,6 +29,7 @@ def create_app():
     rc.init_app(app)
     
     jwt = JWTManager(app)
+    mio = Minio(app)
 
     @jwt.user_claims_loader
     def add_claims_to_access_token(identity):
