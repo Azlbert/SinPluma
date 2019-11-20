@@ -19,7 +19,6 @@ import Page           from "./Pages/Page";
 import Work           from "./Pages/Work";
 import CreateWork     from "./Pages/CreateWork";
 import SignUp         from "./Pages/SignUp";
-import SignOut        from './SignOut'
 
 import routes         from "../common/Routes";
 
@@ -45,7 +44,6 @@ const App = (props) => {
                     <Route path={routes.work+":id"}  component={requireAuth(WorkPage)} />
                     <Route path={routes.work}  component={requireAuth(WorkPage)} />
                     <Route path={routes.createWork} component={requireAuth(CreateWorkPage)} />
-                    <Route path={routes.signout} component={requireAuth(SignOut)} />
                     <Route path={routes.register} component={noRequireAuth(SignUp)} />
                     <Route component={NotFound} />
                 </Switch>
@@ -60,7 +58,6 @@ const NotFound = () => {
 
 const WriterPage = (props) => {
     let { params: { id } } = props.match;
-    if(!id) id = 24;
     return (
         <Template>
             <Writer id={id}/>
@@ -70,7 +67,6 @@ const WriterPage = (props) => {
 
 const PagePage = (props) => {
     let { params: { id } } = props.match;
-    if(!id) id = 24;
     return (
         <Template>
             <Page id={id}/>
@@ -98,7 +94,6 @@ const ProfilePage = (props) => {
 
 const WorkPage = (props) => {
     let { params: { id } } = props.match;
-    if(!id) id = 2;
     return (
         <Template>
             <Work id={id}/>

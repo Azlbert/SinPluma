@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from 'react-router';
-
+import { connect }    from 'react-redux';
 
 import { List, ListItem, ListItemIcon, ListItemText, Hidden,Drawer } from '@material-ui/core';
 
@@ -12,6 +12,8 @@ import BookIcon from '@material-ui/icons/Book';
 
 import routes from "../../common/Routes";
 import useStyles from '../../common/Style';
+import {signOutAction} from '../../actions';
+
 
 function NavBar(props) {
     const {mobileOpen, handleDrawerToggle, containera} = props;
@@ -67,21 +69,6 @@ const menuList = [
         icon: <AccountIcon />,
         link: routes.profile
     },
-    {
-        text: 'Obra',
-        icon: <BookIcon />,
-        link: routes.work
-    },
-    {
-        text: 'Editor',
-        icon: <CreateIcon />,
-        link: routes.writer
-    },
-    {
-        text: 'Login',
-        icon: <PowerIcon />,
-        link: routes.signout
-    },
 ];
 
 function Menu(props){
@@ -93,8 +80,20 @@ function Menu(props){
                 <ListItemText primary={item.text} />
             </ListItem>
             ))}
+            <ListItem button onClick={() => {props.signOutAction();}}>
+                <ListItemIcon><PowerIcon /></ListItemIcon>
+                <ListItemText primary='Salir' />
+            </ListItem>
         </List>
     );
 };
 
-export default withRouter(NavBar);
+/* const mapStateToProps = state => ({
+    auth: state.auth,
+}); */
+
+const mapDispatchToProps = {
+    signOutAction: signOutAction
+};
+
+export default connect(null,mapDispatchToProps)(withRouter(NavBar));

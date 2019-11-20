@@ -210,7 +210,8 @@ export const fetchExactReading = (userId, workId) => async dispatch => {
 
 export const saveReading = notebook => async dispatch => {
     try{
-        const myJSON = JSON.stringify({ notebook });
+        console.log({notebook});
+        const myJSON = JSON.stringify({ notebook_id: notebook });
         await api.post('/readings', myJSON, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
@@ -355,7 +356,26 @@ export const updateWorkImage = (file, id) => async (dispatch, getState) => {
         type: 'FETCH_WORK_IMAGE',
         payload: url
     });
-}
+};
+
+export const signOutAction = () => async dispatch => {
+    try{
+        await api.post('/logout',{},{
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+            }
+        });
+        
+    }catch(e){
+        localStorage.clear();
+        dispatch({
+            type: 'unauthenticated_user'
+        });
+        //localStorage.setItem("signout", true);
+    }
+    //props.history.push(routes.root);
+    
+};
 
 export const sentiment = sentences => async dispatch => {
     if(sentences !== null){
