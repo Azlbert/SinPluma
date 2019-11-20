@@ -9,6 +9,7 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import BookIcon from '@material-ui/icons/Book';
+import ColorLens from '@material-ui/icons/ColorLens';
 
 import routes from "../../common/Routes";
 import useStyles from '../../common/Style';
@@ -65,9 +66,14 @@ const menuList = [
         link: routes.cards
     },
     {
-        text: 'Perfil',
+        text: 'Mi Perfil',
         icon: <AccountIcon />,
         link: routes.profile
+    },
+    {
+        text: 'Temas',
+        icon: <ColorLens />,
+        link: routes.themes
     },
 ];
 
@@ -80,7 +86,7 @@ function Menu(props){
                 <ListItemText primary={item.text} />
             </ListItem>
             ))}
-            <ListItem button onClick={() => {props.signOutAction();}}>
+            <ListItem button onClick={() => {props.signOutAction();props.signOutAction();}}>
                 <ListItemIcon><PowerIcon /></ListItemIcon>
                 <ListItemText primary='Salir' />
             </ListItem>

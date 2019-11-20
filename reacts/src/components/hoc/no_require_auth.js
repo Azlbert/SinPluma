@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import routes from '../../common/Routes'
 
-const redirectTo = '/cards';
+const redirectTo = routes.cards;
 
 export default function (ComposedComponent) {
     class NotAuthentication extends Component {

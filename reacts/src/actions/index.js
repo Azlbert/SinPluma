@@ -367,7 +367,8 @@ export const signOutAction = () => async dispatch => {
         });
         
     }catch(e){
-        localStorage.clear();
+        localStorage.clear('accessToken');
+        localStorage.clear('refreshToken');
         dispatch({
             type: 'unauthenticated_user'
         });

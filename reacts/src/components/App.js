@@ -19,6 +19,7 @@ import Page           from "./Pages/Page";
 import Work           from "./Pages/Work";
 import CreateWork     from "./Pages/CreateWork";
 import SignUp         from "./Pages/SignUp";
+import Themes         from "./Pages/Themes";
 
 import routes         from "../common/Routes";
 
@@ -45,6 +46,7 @@ const App = (props) => {
                     <Route path={routes.work}  component={requireAuth(WorkPage)} />
                     <Route path={routes.createWork} component={requireAuth(CreateWorkPage)} />
                     <Route path={routes.register} component={noRequireAuth(SignUp)} />
+                    <Route path={routes.themes} component={requireAuth(ThemesPage)} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
@@ -105,6 +107,14 @@ const CreateWorkPage = (props) => {
     return (
         <Template>
             <CreateWork/>
+        </Template>
+    );
+};
+
+const ThemesPage = (props) => {
+    return (
+        <Template>
+            <Themes/>
         </Template>
     );
 };

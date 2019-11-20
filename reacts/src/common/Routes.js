@@ -3,10 +3,10 @@ export default {
     profile : "/perfil/",
     writer : "/editor/",
     page : "/pagina/",
-    cards : "/cards/",
+    cards : "/obras/",
     login : "/login/",
     work : "/obra/",
     createWork : "/crear/",
-    signout : "/salir/",
+    themes : "/temas/",
     register : "/registrar/",
 };

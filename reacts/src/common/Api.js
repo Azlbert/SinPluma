@@ -55,7 +55,6 @@ let isAlreadyFetchingAccessToken = false;
 let subscribers = [];
 
 async function resetTokenAndReattemptRequest(error) {
-    const signout = localStorage.getItem("signout");
     /* if(signout == undefined && signout === true){
         console('do not download');
         return;
