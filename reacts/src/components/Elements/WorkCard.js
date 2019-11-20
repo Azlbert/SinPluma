@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { baseURL } from '../../common/Api'
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +24,7 @@ function WorkCard(props) {
         lg: typeof props.lg === 'undefined' ? 6 : props.lg,
         xl: typeof props.xl === 'undefined' ? 4 : props.xl,
     };
+    
     return(
         <Grid item {...sizing}>
             <CardActionArea component="a" href="" onClick={() => props.history.push(url)}>
@@ -30,7 +32,7 @@ function WorkCard(props) {
                     <Hidden xsDown>
                         <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
+                        image= {baseURL + '/notebooks/' + props.work.notebook_id + '/image/'}
                         title="Image title"
                         />
                     </Hidden>

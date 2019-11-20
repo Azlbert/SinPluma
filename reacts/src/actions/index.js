@@ -298,6 +298,9 @@ export function clearStates() {
         dispatch({
             type: 'CLEAR_SENTIMENT',
         });
+        dispatch({
+            type: 'CLEAR_WORK_IMAGE',
+        });
     };
 };
 
@@ -323,20 +326,25 @@ export const savePage = (data, id) => async (dispatch, getState) => {
 };
 
 export const loadWorkImage = id => async dispatch => {
-    dispatch({
-        type: 'FETCH_WORK_IMAGE',
-        payload: ''
-    });
-    dispatch({
-        type: 'FETCH_WORK_IMAGE',
-        payload: baseURL + '/notebooks/' + id + '/image/'
-    });
+    let url;
+    try{
+        const response = await api.get('/pages/'+id+'?mode=editor');
+        dispatch({
+            type: 'FETCH_WORK_IMAGE',
+            payload: baseURL + 'notebooks/' + id + '/image/'
+        });
+    }catch(c){
+        dispatch({
+            type: 'CLEAR_WORK_IMAGE',
+        });
+    }
+    
 }
 
 export const updateWorkImage = (file, id) => async (dispatch, getState) => {
     const formData = new FormData();
     formData.append("image", file);
-    await api.post('/notebooks/' + id + '/image/', formData, {
+    await api.post('notebooks/' + id + '/image/', formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }

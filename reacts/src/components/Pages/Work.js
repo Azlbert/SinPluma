@@ -257,9 +257,15 @@ function Work(props) {
             {...input}
         />);
         };
-       //
-    //const image = props.image?window.URL.createObjectURL(props.image):"/default.jpg";
     //console.log(image);
+    const WorkAvatar = () => {
+        if(props.image === null) return '';
+        return (
+            <Avatar variant="square" src={props.image} style={{width:'100%',height:'340px'}}>
+                NN
+            </Avatar>
+        );
+    }
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={12}>
@@ -268,9 +274,7 @@ function Work(props) {
                 </Typography>
             </Grid>
             <Grid item xs={12} md={3}>
-                <Avatar variant="square" src={props.image} style={{width:'100%',height:'340px'}}>
-                    NN
-                </Avatar>
+                <WorkAvatar />
             <Grid>
                 <DrawIfAuth id={props.work.user_id}>
                 <input
