@@ -12,6 +12,7 @@ import pageReducer from './pageReducer';
 import readingsReducer from './readingsReducer';
 import saveReadingReducer from './saveReadingReducer';
 import sentimentReducer from './sentimentReducer';
+import imagesReducer from './imagesReducer';
 
 export default combineReducers({
     form: formReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     readings: readingsReducer,
     saveReading: saveReadingReducer,
     sentiments: sentimentReducer,
-    auth: authReducer
+    auth: authReducer,
+    image: imagesReducer
 });

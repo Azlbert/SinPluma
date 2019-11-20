@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+export const baseURL = 'http://sinpluma.io/api/';
+
 const api = axios.create({
-    baseURL: 'http://sinpluma.io/api/'
+    baseURL
 });
 
 const MAX_REQUESTS_COUNT = 20

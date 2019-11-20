@@ -1,6 +1,6 @@
-import _            from 'lodash';
-import api          from "../common/Api";
-import {getSession} from "../common/Session";
+import _                from 'lodash';
+import api,{baseURL}    from "../common/Api";
+import {getSession}     from "../common/Session";
 
 import {
     AUTHENTICATION_ERROR,
@@ -321,6 +321,33 @@ export const savePage = (data, id) => async (dispatch, getState) => {
         payload: data
     });
 };
+
+export const loadWorkImage = id => async dispatch => {
+    dispatch({
+        type: 'FETCH_WORK_IMAGE',
+        payload: ''
+    });
+    dispatch({
+        type: 'FETCH_WORK_IMAGE',
+        payload: baseURL + '/notebooks/' + id + '/image/'
+    });
+}
+
+export const updateWorkImage = (file, id) => async (dispatch, getState) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    await api.post('/notebooks/' + id + '/image/', formData, {
+        headers: {
+        'Content-Type': 'multipart/form-data'
+        }
+    });
+    const url = window.URL.createObjectURL(file);
+    console.log(url);
+    dispatch({
+        type: 'FETCH_WORK_IMAGE',
+        payload: url
+    });
+}
 
 export const sentiment = sentences => async dispatch => {
     if(sentences !== null){

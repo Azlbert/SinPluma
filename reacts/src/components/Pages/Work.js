@@ -27,7 +27,9 @@ import {    fetchWork,
             deleteWork as deleteWorkAction,
             fetchExactReading,
             deleteReading,
-            saveReading
+            saveReading,
+            updateWorkImage,
+            loadWorkImage
         } from '../../actions';
 import useStyles from '../../common/Style';
 import { getSession } from '../../common/Session';
@@ -42,6 +44,7 @@ import DialogContent    from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle      from '@material-ui/core/DialogTitle';
 import TextField        from '@material-ui/core/TextField';
+import Avatar           from '@material-ui/core/Avatar'
 
 import DrawIfAuth from '../hoc/draw_if_auth';
 import DrawIfNotAuth from '../hoc/draw_if_not_auth';
@@ -155,6 +158,7 @@ function Work(props) {
         props.fetchWork(props.id);
         props.fetchGenres();
         props.fetchExactReading();
+        props.loadWorkImage(props.id);
     });
     
     const [editWork, setEditWork] = React.useState(false);
@@ -253,7 +257,9 @@ function Work(props) {
             {...input}
         />);
         };
-    
+       //
+    //const image = props.image?window.URL.createObjectURL(props.image):"/default.jpg";
+    //console.log(image);
     return (
         <Grid container className={classes.root}>
             <Grid item xs={12} md={12}>
@@ -262,6 +268,28 @@ function Work(props) {
                 </Typography>
             </Grid>
             <Grid item xs={12} md={3}>
+                <Avatar variant="square" src={props.image} style={{width:'100%',height:'340px'}}>
+                    NN
+                </Avatar>
+            <Grid>
+                <DrawIfAuth id={props.work.user_id}>
+                <input
+                accept="image/jpeg"
+                className={classes.input}
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={x => props.updateWorkImage(x.target.files[0],props.work.notebook_id)}
+                />
+                <label htmlFor="raised-button-file">
+                <Button fullWidth variant="raised" component="span" style={{marginBottom:'12px',marginTop:'8px'}}>
+                    Actualizar Imagen
+                </Button>
+                </label>
+                </DrawIfAuth>
+                
+            </Grid>
             <Paper className={classes.paper}>
                 <Typography variant="body2" gutterBottom>
                     Publicado por: {props.work.user.user_name}
@@ -348,8 +376,9 @@ function Work(props) {
                 variant="contained"
                 aria-label="delete" 
                 onClick={()=>{
-                    openDeleteWork();
-                    }}>
+                openDeleteWork();
+                }}
+                >
                     <DeleteIcon fontSize="small" />
                 </IconButton>
                 <Button onClick={closeEditWork}>
@@ -391,6 +420,7 @@ function Work(props) {
 };
 
 const mapStateToProps = state => ({
+    image: state.image,
     work: state.work,
     genres: state.genres,
     savedReading: state.saveReading
@@ -406,7 +436,9 @@ const mapDispatchToProps = {
     clearStates: clearStates,
     fetchExactReading: fetchExactReading,
     deleteReading: deleteReading,
-    saveReadingDispatch: saveReading
+    saveReadingDispatch: saveReading,
+    updateWorkImage: updateWorkImage,
+    loadWorkImage: loadWorkImage
 };
 
 const reduxWork = reduxForm({
