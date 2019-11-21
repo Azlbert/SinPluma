@@ -294,17 +294,13 @@ function Work(props) {
                 </DrawIfAuth>
                 
             </Grid>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} onClick={() => props.history.push(routes.profile+props.work.user.user_id)} style={{cursor:'pointer'}}>
                 <Typography variant="body2" gutterBottom>
                     Publicado por: {props.work.user.user_name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                     Genero: {props.work.genre.name}
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                    Publicado el: alguna fecha
-                </Typography>
-                <br />
             </Paper>
             <DrawIfAuth id={props.work.user.user_id}>
                 <Button

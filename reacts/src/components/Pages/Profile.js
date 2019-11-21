@@ -19,71 +19,71 @@ import useStyles from '../../common/Style';
 // TODO: Correct resizing
 
 function ListWorks(props) {
-  return props.cards.map((card) => 
-      <WorkCard key={card.notebook_id} work={card} lg={12} xl={12}/>
-  );
+    return props.cards.map((card) => 
+        <WorkCard key={card.notebook_id} work={card} lg={12} xl={12}/>
+    );
 };
 
 function ListReadings(props) {
-  return props.readings.map((readings) => 
-      <WorkCard key={readings.notebook.notebook_id} work={readings.notebook} lg={12} xl={12}/>
-  );
+    return props.readings.map((readings) => 
+        <WorkCard key={readings.notebook.notebook_id} work={readings.notebook} lg={12} xl={12}/>
+    );
 };
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props;
 
-  return (
+    return (
     <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
-      {...other}
+        component="div"
+        role="tabpanel"
+        hidden={value !== index}
+        id={`nav-tabpanel-${index}`}
+        aria-labelledby={`nav-tab-${index}`}
+        {...other}
     >
-      <Box p={3}>{children}</Box>
+        <Box p={3}>{children}</Box>
     </Typography>
-  );
+    );
 }
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
 };
 
 function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={event => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
+    return (
+        <Tab
+            component="a"
+            onClick={event => {
+            event.preventDefault();
+            }}
+            {...props}
+        />
+    );
 }
 
 function a11yProps(index) {
-  return {
-    id: `nav-tab-${index}`,
-    'aria-controls': `nav-tabpanel-${index}`,
-  };
+    return {
+        id: `nav-tab-${index}`,
+        'aria-controls': `nav-tabpanel-${index}`,
+    };
 }
 
 
 function UserTabs(props) {
-  const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
   
-  /* const works = typeof props.works != 'object' ? props.works : [];
-  console.log(works); */
-  return (
+    /* const works = typeof props.works != 'object' ? props.works : [];
+    console.log(works); */
+    return (
     <Paper square>
         <Tabs
             value={value}
@@ -96,17 +96,17 @@ function UserTabs(props) {
             <LinkTab label="Leyendo" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-        <Grid container spacing={4}>
-            <ListWorks cards={props.works} />
-        </Grid>
+            <Grid container spacing={4}>
+                <ListWorks cards={props.works} />
+            </Grid>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <Grid container spacing={4}>
-            <ListReadings readings={props.readings} />
-        </Grid>
+            <Grid container spacing={4}>
+                <ListReadings readings={props.readings} />
+            </Grid>
         </TabPanel>
     </Paper>
-  );
+    );
 }
 
 

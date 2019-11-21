@@ -1,7 +1,11 @@
 import {orangeTheme, 
     purpleTheme, 
     greenTheme,
-    bluegreyTheme} from "../components/MuiTheme";
+    bluegreyTheme,
+    darkTheme,
+    indigoTheme,
+    amberTheme,
+    lightBlueTheme} from "../components/MuiTheme";
 
 const getTheme = theme => {
     //console.log(theme);
@@ -12,6 +16,14 @@ const getTheme = theme => {
             return greenTheme;
         case 'bluegrey':
             return bluegreyTheme;
+        case 'dark':
+            return darkTheme;
+        case 'lightblue':
+            return lightBlueTheme;
+        case 'amber':
+            return amberTheme;
+        case 'indigo':
+            return indigoTheme;
     }
     localStorage.setItem('theme',orangeTheme);
     return orangeTheme;
