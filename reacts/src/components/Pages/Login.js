@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)',
+        backgroundImage: 'url(/login.jpeg)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -85,7 +85,7 @@ function Login(props) {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Usuario"
             name="email"
             autoComplete="email"
             autoFocus

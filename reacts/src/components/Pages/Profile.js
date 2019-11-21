@@ -132,7 +132,7 @@ function Profile(props) {
         <Grid container className={classes.root}>
             <Grid item xs={12} md={3}>
             <Paper className={classes.paper}>
-                <Avatar alt="Remy Sharp" src="https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg" className={classes.avatar}/>
+                <Avatar alt="Remy Sharp" src="/user.jpg" className={classes.avatar}/>
                 <Typography variant="h5" gutterBottom>
                     {name}
                 </Typography>

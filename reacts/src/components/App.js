@@ -86,7 +86,11 @@ const CardsPage = () => {
 
 const ProfilePage = (props) => {
     let { params: { id } } = props.match;
-    if(!id) id = getSession().id;
+    try{
+        if(!id) id = getSession().id;
+    } catch(e){
+        return <LoginPage />;
+    }
     return (
         <Template>
             <Profile id={id}/>
