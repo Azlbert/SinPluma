@@ -26,6 +26,7 @@ services:
             - flask
         networks:
             - frontend
+        tty: true
         restart: on-failure
 
     flask:
@@ -44,7 +45,7 @@ services:
         restart: on-failure
 
     minio:
-        image: "minio/minio:8445-9573ea5"
+        image: "minio/minio:RELEASE.2020-04-15T19-42-18Z"
         volumes:
             - ./minio/data:/data
         ports:
@@ -80,7 +81,7 @@ services:
 
     inno_router:
         container_name: inno_router
-        image: "mysql/mysql-router:8.0.16-0.7-router"
+        image: "mysql/mysql-router:8.0.19-0.9-router"
         environment:
             - MYSQL_HOST=inno_server_01
             - MYSQL_PORT=${MYSQL_PORT}
@@ -110,7 +111,7 @@ services:
 
     inno_server_01: &inno_server
         container_name: inno_server_01
-        image: "mysql/mysql-server:8.0.17-1.1.12"
+        image: "mysql/mysql-server:8.0.19-1.1.15"
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_ROOT_HOST=${MYSQL_ROOT_HOST}
@@ -120,6 +121,7 @@ services:
         volumes:
             - ./innodbCluster/data/inno_server_01:/var/lib/mysql
             - ./innodbCluster/inno_server_01.cnf:/etc/my.cnf
+            - ./innodbCluster/dump.sql:/dump.sql
         restart: unless-stopped
 
     inno_server_02:

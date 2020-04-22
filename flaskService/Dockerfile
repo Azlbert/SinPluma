@@ -1,4 +1,4 @@
-FROM    python:3.7.3
+FROM    python:3.8.2-slim
 LABEL   maintainer="Alberto Duran"
 
 ENV     INSTALL_PATH /flask

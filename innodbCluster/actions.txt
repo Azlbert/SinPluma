@@ -43,7 +43,14 @@ cluster.add_instance('root:root@mysql_slaveA:3306',{"recoveryMethod":"incrementa
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+sudo cp -aR ./inno_server_01 ~/Downloads
 
+mysqldump -u [user] -p [databaseName] --no-create-info  > [filename].sql
+mysql -u [username] -p [databaseName] < [filename].sql
+
+
+docker container rm $(docker container ls -aq)
+docker image prune -a
 
 # configure instances
 #Do you want to perform the required configuration changes? [y/n]: y

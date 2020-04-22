@@ -10,6 +10,7 @@ relay_log_info_repository           = TABLE
 transaction_write_set_extraction    = XXHASH64
 default_authentication_plugin       = mysql_native_password
 sql-mode                            = NO_AUTO_VALUE_ON_ZERO
+sql_require_primary_key 	    = OFF
 skip-host-cache
 skip-name-resolve
 

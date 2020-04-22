@@ -1,4 +1,4 @@
-FROM    node:10.16
+FROM    node:12.16.2-slim
 LABEL   maintainer="Alberto Duran"
 
 WORKDIR /usr/src/app
