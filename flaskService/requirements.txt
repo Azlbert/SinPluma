@@ -3,7 +3,7 @@ Flask-RESTful           ==  0.3.8
 flask-jwt-extended      ==  3.24.1
 Flask-SQLAlchemy        ==  2.4.4
 marshmallow             ==  3.7.1
-flask-marshmallow       ==  0.13.0
+flask-marshmallow       ==  0.11.0
 marshmallow-sqlalchemy  ==  0.23.1
 Flask-Minio             ==  0.1.2
 bcrypt                  ==  3.1.7
