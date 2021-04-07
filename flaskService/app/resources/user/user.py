@@ -17,7 +17,7 @@ class User(Resource):
     def get(cls, id):
         user = UserModel.find_by_id(id)
         if not user:
-            return {'message':'User not found'}, 200
+            return {'message':'User not found'}, 400
         return user_schema.dump(user), 200
 
 class UserNotebooks(Resource):
@@ -25,7 +25,7 @@ class UserNotebooks(Resource):
     def get(cls,id):
         user = UserModel.find_by_id(id)
         if not user:
-            return {'message':'User not found'}, 200
+            return {'message':'User not found'}, 400
         return {"notebooks": notebook_list_schema.dump(NotebookModel.find_all_by_user(id))}, 200
 
 class UserReadings(Resource):
@@ -33,7 +33,7 @@ class UserReadings(Resource):
     def get(cls, id:int):
         user = UserModel.find_by_id(id)
         if not user:
-            return {'message':'User not found'}, 200
+            return {'message':'User not found'}, 400
         #reading_list = reading_list_schema.dump(ReadingModel.find_user_list(id, include_notebook_info=True))
         reading_list = ReadingModel.find_user_list(id, include_notebook_info=True)
         return {"readings": reading_notebook_list_schema.dump(reading_list)}, 200

@@ -149,3 +149,10 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+LOCK TABLES `genres` WRITE;
+/*!40000 ALTER TABLE `genres` DISABLE KEYS */;
+INSERT INTO `genres` VALUES (1,'Acción y aventura'),(2,'Antologías'),(3,'Ciencia ficción'),(4,'Cuentos'),(5,'Ensayos'),(6,'Fantasía'),(7,'Ficción'),(8,'Poesía'),(9,'Teatro'),(10,'Terror');
+/*!40000 ALTER TABLE `genres` ENABLE KEYS */;
+UNLOCK TABLES;

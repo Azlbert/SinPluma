@@ -35,6 +35,32 @@ docker-compose -f "docker-compose.yml" up -d --build
 
 Launch the web application using the url mapped before.
 
+# Changing the database
+
+By defautl, docker compose uses "./innodbCluster/sinpluma.sql" for creating the database schema and populate the genres table, but there is another file "./innodbCluster/sinpluma.sql" that can be used to build the databse with more data.
+
+Just change /docker-compose.yml in the volume section of inno_shell
+
+```
+inno_shell:
+    ...
+    volumes:
+        - ...
+        - ./innodbCluster/sinpluma.sql:/code.sql
+```
+
+to
+
+```
+inno_shell:
+    ...
+    volumes:
+        - ...
+        - ./innodbCluster/dump.sql:/code.sql
+```
+
+Note: The system does not recognize if there is a new change in the schema, it is needed to delete the "./innodbCluster/data" folder so the new changes can be applied.
+
 # Screenshots
 
 ![Screenshot01](./miscellaneous/img/Screenshot01.jpg)
