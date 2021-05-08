@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.2",
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
